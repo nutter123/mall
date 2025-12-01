@@ -1,0 +1,64 @@
+<view class="page-container" wx:if="{{detail}}">
+  <t-swiper
+    list="{{detail.images && detail.images.length > 0 ? detail.images : [detail.mainImage]}}"
+    height="750rpx"
+    autoplay
+    navigation="{{ { type: 'fraction' } }}"
+  />
+
+  <view class="info-card">
+    <view class="price-row">
+      <view class="symbol">¥</view>
+      <view class="price">{{detail.skus[0].price}}</view>
+    </view>
+    <view class="title">{{detail.title}}</view>
+    <view class="desc" wx:if="{{detail.description}}">{{detail.description}}</view>
+  </view>
+
+  <t-cell title="选择" note="规格 / 数量" arrow bind:click="handlePopup" t-class="cell-group" />
+
+  <view class="bottom-bar">
+    <view class="btn-cart" bindtap="handlePopup">加入购物车</view>
+    <view class="btn-buy" bindtap="handlePopup">立即购买</view>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+</view>
+
+<t-popup visible="{{skuVisible}}" placement="bottom" bind:visible-change="toggleSkuPopup">
+  <view class="sku-popup">
+    <view class="sku-header">
+      <t-image src="{{detail.mainImage}}" mode="aspectFill" width="180" height="180" class="sku-img" />
+      <view class="sku-info">
+        <view class="price">¥ {{displayPrice}}</view>
+        <view class="stock" wx:if="{{currentSku}}">库存: {{currentSku.stock}}</view>
+        <view class="tips">
+          {{currentSku ? '已选: ' : '请选择: '}}
+          <text wx:for="{{selectedSpecs}}" wx:key="index">{{item}} </text>
+        </view>
+      </view>
+    </view>
+
+    <scroll-view scroll-y class="sku-body">
+      <view class="spec-group" wx:for="{{specList}}" wx:for-item="group" wx:key="key">
+        <view class="spec-title">{{group.key}}</view>
+        <view class="spec-values">
+          <view
+            class="spec-btn {{selectedSpecs[group.key] === item ? 'selected' : ''}}"
+            wx:for="{{group.values}}"
+            wx:key="*this"
+            data-key="{{group.key}}"
+            data-value="{{item}}"
+            bindtap="handleSelectSpec"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="sku-footer">
+      <t-button block theme="primary" size="large" bind:tap="handleAddCart">确认</t-button>
+    </view>
+  </view>
+</t-popup>

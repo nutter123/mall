@@ -1,16 +1,9 @@
 import { request } from '../../utils/request';
-
-// 定义接口返回的数据类型（如果你引用了 shared-types 会更爽，这里先手动写）
-interface Product {
-  id: string;
-  title: string;
-  mainImage: string;
-  price: number; // 假设后端接口返回了最低价
-}
+import type { IProduct } from '@mall/types';
 
 Page({
   data: {
-    productList: [] as Product[],
+    productList: [] as IProduct[],
     loading: true,
   },
 
@@ -21,7 +14,7 @@ Page({
   async fetchProducts() {
     try {
       // 调用 NestJS 接口
-      const res = await request<Product[]>('/products');
+      const res = await request<IProduct[]>('/products');
       console.log('商品数据:', res);
 
       this.setData({
@@ -31,5 +24,12 @@ Page({
     } catch (error) {
       console.error(error);
     }
+  },
+
+  goToDetail(e: WechatMiniprogram.TouchEvent) {
+    const { id } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/goods/details/index?id=${id}`,
+    });
   },
 });

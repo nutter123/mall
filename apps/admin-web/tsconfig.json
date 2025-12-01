@@ -1,6 +1,6 @@
 // apps/admin-web/tsconfig.json
 {
-  // Umi 可能会生成自己的配置，我们这里扩展它或手动指定
+  "extends": "../../tsconfig.base.json", // 继承根配置
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -14,12 +14,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
-      // 关键：让 Admin 也能读取到根目录定义的别名
       "@mall/types": ["../../packages/shared-types/src"]
     }
   },
-  "include": [
-    "src/**/*",
-    "../../packages/shared-types/src/**/*" // 显式包含共享代码，防止 IDE 报错
-  ]
+  "include": ["src/**/*", "../../packages/shared-types/src/**/*"],
+  "exclude": ["node_modules"]
 }

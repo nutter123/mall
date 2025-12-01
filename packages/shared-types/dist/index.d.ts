@@ -1,5 +1,5 @@
 export interface TestDto {
-  message: string;
+    message: string;
 }
 export * from './dto/product.dto';
 export * from './types/product';
