@@ -1,5 +1,5 @@
 {
-  "name": "miniprogram-ts-sass",
+  "name": "client-mp",
   "version": "1.0.0",
   "description": "",
   "scripts": {},
@@ -13,6 +13,7 @@
   "dependencies": {
     "miniprogram-computed": "^7.0.0",
     "mobx-miniprogram": "^6.12.3",
-    "mobx-miniprogram-bindings": "^5.1.1"
+    "mobx-miniprogram-bindings": "^5.1.1",
+    "tdesign-miniprogram": "^1.11.2"
   }
 }

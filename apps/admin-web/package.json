@@ -1,4 +1,5 @@
 {
+  "name": "admin-web",
   "private": true,
   "author": "nutter <972360566@qq.com>",
   "scripts": {

@@ -18,6 +18,7 @@
     "strict": true,
     "noImplicitAny": false, // 允许隐式 any (初期开发可以设为 false，后期建议改为 true)
     "strictNullChecks": true, // 防止 null/undefined 报错
+    "strictPropertyInitialization": false, // 允许未初始化的属性
 
     // 3. 路径映射 (Monorepo 的灵魂)
     "baseUrl": ".",

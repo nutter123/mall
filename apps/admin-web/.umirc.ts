@@ -29,7 +29,11 @@ export default defineConfig({
       path: '/table',
       component: './Table',
     },
+    {
+      name: 'Product-Create',
+      path: '/product/create',
+      component: './Product/Create',
+    },
   ],
   npmClient: 'pnpm',
 });
-

@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@" : ["src/"],
+      "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
       // 关键：让 Admin 也能读取到根目录定义的别名
       "@mall/types": ["../../packages/shared-types/src"]
