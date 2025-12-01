@@ -4,8 +4,7 @@
   "scripts": {
     "dev:server": "pnpm --filter server-api start:dev",
     "dev:admin": "pnpm --filter admin-web start",
-    "dev:mp": "pnpm --filter client-mp dev",
-    "build": "pnpm -r build"
+    "dev:mp": "pnpm --filter client-mp dev"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

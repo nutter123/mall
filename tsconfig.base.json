@@ -22,10 +22,7 @@
 
     // 3. 路径映射 (Monorepo 的灵魂)
     "baseUrl": ".",
-    "paths": {
-      // 这样你在项目中就可以 import { UserDto } from '@mall/types'
-      "@mall/types": ["packages/shared-types/src"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "dist"]
 }

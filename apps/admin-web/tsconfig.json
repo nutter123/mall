@@ -13,10 +13,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "@mall/types": ["../../packages/shared-types/src"]
+      "@@/*": ["src/.umi/*"]
     }
   },
-  "include": ["src/**/*", "../../packages/shared-types/src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,13 @@
+import type { IApiResponse } from '../types/index';
 // 定义后端地址 (注意：小程序要求 HTTPS，本地开发需要在开发者工具勾选 "不校验合法域名")
 const BASE_URL = 'http://localhost:3000';
 
-export const request = <T>(path: string, options: WechatMiniprogram.RequestOption = {}): Promise<T> => {
+export const request = <T>(
+  path: string,
+  options: WechatMiniprogram.RequestOption = {
+    url: '',
+  },
+): Promise<T> => {
   return new Promise((resolve, reject) => {
     wx.request({
       ...options,
@@ -13,12 +19,12 @@ export const request = <T>(path: string, options: WechatMiniprogram.RequestOptio
         // 'Authorization': `Bearer ${wx.getStorageSync('token')}`
       },
       success: (res) => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(res.data as T);
+        const apiRes = res.data as IApiResponse<T>;
+        if (apiRes.code === 200) {
+          resolve(apiRes.data);
         } else {
-          // 这里可以统一处理报错，比如弹窗提示
-          wx.showToast({ title: '请求失败', icon: 'none' });
-          reject(res);
+          wx.showToast({ title: apiRes.msg || '请求失败', icon: 'none' });
+          reject(apiRes);
         }
       },
       fail: (err) => {

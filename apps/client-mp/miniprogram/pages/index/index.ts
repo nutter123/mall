@@ -1,5 +1,5 @@
 import { request } from '../../utils/request';
-import type { IProduct } from '@mall/types';
+import type { IProduct } from '../../types/index';
 
 Page({
   data: {

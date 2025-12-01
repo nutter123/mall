@@ -8,10 +8,9 @@
     "types": ["miniprogram-api-typings"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./miniprogram/*"],
-      "@mall/types": ["../../packages/shared-types/src"]
+      "@/*": ["./miniprogram/*"]
     }
   },
-  "include": ["miniprogram/**/*", "../../packages/shared-types/src/**/*"],
+  "include": ["miniprogram/**/*"],
   "exclude": ["node_modules"]
 }

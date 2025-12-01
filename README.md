@@ -1,8 +1,8 @@
-
 # 聚合 monorepo
 
 ## 项目结构
 
+```tree
 mall-monorepo/
 ├── package.json              // 根配置，定义 script 脚本一键启动所有端
 ├── pnpm-workspace.yaml       // pnpm 工作区配置
@@ -48,3 +48,11 @@ mall-monorepo/
         └── src/
             ├── dto/          // 接口入参定义 (如 CreateProductDto)
             └── vo/           // 接口返回定义 (如 ProductVo)
+```
+
+## 清单
+
+1. Monorepo + TS path alias
+2. docker mysql/redis
+3. shared types
+4. 统一接口返回和错误处理

@@ -1,5 +1,5 @@
 import { request } from '@umijs/max';
-import type { CreateProductDto, IProduct } from '@mall/types';
+import type { CreateProductDto, IProduct } from '@/types';
 
 // 定义接口地址，开发环境直接写 localhost:3000
 const API_URL = 'http://localhost:3000';
