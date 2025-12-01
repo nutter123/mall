@@ -1,0 +1,18 @@
+{
+  "name": "miniprogram-ts-sass",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "miniprogram-api-typings": "^4.1.0"
+  },
+  "dependencies": {
+    "miniprogram-computed": "^7.0.0",
+    "mobx-miniprogram": "^6.12.3",
+    "mobx-miniprogram-bindings": "^5.1.1"
+  }
+}

@@ -1,0 +1,9 @@
+// packages/shared-types/tsconfig.json
+{
+  "extends": "../../tsconfig.base.json", // 继承根配置
+  "compilerOptions": {
+    "outDir": "./dist",                  // 输出目录
+    "baseUrl": "./"
+  },
+  "include": ["src/**/*"]
+}

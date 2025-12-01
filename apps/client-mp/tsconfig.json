@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "ESNext", // 小程序支持 ESNext 模块
+    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM"], // 包含 DOM 是因为小程序 IDE 需要
+    "types": [
+      "miniprogram-api-typings" // 微信小程序官方类型
+    ],
+    "ignoreDeprecations": "5.0", // 忽略一些 TS 版本警告
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./miniprogram/*"], // 方便内部引用
+      "@mall/types": ["../../packages/shared-types/src"] // 引用共享类型
+    }
+  },
+  "include": ["miniprogram/**/*", "../../packages/shared-types/src/**/*", "miniprogram/app.ts"],
+  "exclude": ["node_modules"]
+}
