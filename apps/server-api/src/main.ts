@@ -3,15 +3,24 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
+
+  // 替换默认 Logger
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   // 配置全局跨域
   app.enableCors();
 
   // 注册全局响应拦截器 (成功时的包装)
+  // 替换原第21行代码为以下内容：
   app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor(app.get(WINSTON_MODULE_NEST_PROVIDER)));
 
   // 注册全局异常过滤器 (失败时的包装)
   app.useGlobalFilters(new AllExceptionsFilter());

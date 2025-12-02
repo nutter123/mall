@@ -10,9 +10,35 @@ import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { CartModule } from './modules/cart/cart.module';
+import { ClsModule } from 'nestjs-cls';
+import { v4 as uuid4 } from 'uuid';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
+    // 1. 配置 CLS (链路追踪上下文)
+    ClsModule.forRoot({
+      global: true,
+      middleware: {
+        mount: true, // 自动挂载中间件
+        generateId: true, // 自动生成 ID
+        idGenerator: (req) => req.headers['x-trace-id'] || uuid4(), // 如果前端传了用前端的，没传自己生成
+      },
+    }),
+    // 2. 配置 Winston (结构化日志)
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.ms(),
+            winston.format.json(), // ⚠️ 大厂标准：生产环境必须是 JSON 格式，方便 ELK 采集
+          ),
+        }),
+        // 实际生产中通常还会加一个 DailyRotateFile 存文件，这里仅演示 Console
+      ],
+    }),
     // 1. 加载配置模块 (读取 .env)
     ConfigModule.forRoot({
       isGlobal: true, // 让配置在全项目通用
