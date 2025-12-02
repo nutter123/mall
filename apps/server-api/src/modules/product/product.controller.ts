@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('products') // 路由前缀: /products
 export class ProductController {
@@ -14,11 +15,13 @@ export class ProductController {
   }
 
   @Get()
+  @Public()
   findAll() {
     return this.productService.findAll();
   }
 
   @Get(':id') // 路由变成 /products/:id
+  @Public()
   findOne(@Param('id') id: string) {
     return this.productService.findOne(id);
   }

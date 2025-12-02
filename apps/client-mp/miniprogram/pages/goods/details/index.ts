@@ -1,3 +1,4 @@
+import { AuthService } from '@/api/auth';
 import { request } from '../../../utils/request';
 import { extractSpecs, SpecItem } from '../../../utils/sku-helper';
 
@@ -28,7 +29,7 @@ Page({
 
   async fetchDetail(id: string) {
     try {
-      const res = await request<ProductDetail>(`/products/${id}`);
+      const res = await request<ProductDetail>(`/products/${id}`, {});
 
       // 1. 计算规格列表
       const specList = extractSpecs(res.skus);
@@ -93,12 +94,38 @@ Page({
   },
 
   // 点击确认/购买
-  handleAddCart() {
+  async handleAddCart() {
     if (!this.data.currentSku) {
       wx.showToast({ title: '请选择完整规格', icon: 'none' });
       return;
     }
-    wx.showToast({ title: `加入 SKU: ${this.data.currentSku.id}`, icon: 'success' });
-    this.toggleSkuPopup();
+
+    wx.showLoading({ title: '处理中...' });
+
+    try {
+      // 1. 核心：调用登录服务
+      // 如果没登录，它会去调 wx.login -> 后端 -> 存 Token
+      // 如果已登录，它直接返回 Token
+      await AuthService.login();
+
+      // 2. 登录成功后，执行加购业务 (这里先模拟请求一个需要权限的接口)
+      // 比如我们把加入购物车接口先假定为 POST /cart (你需要去后端实现它，或者暂时先打印 Token 验证)
+
+      /* await request('/cart', { 
+         method: 'POST', 
+         data: { skuId: this.data.currentSku.id, count: 1 } 
+       });
+      */
+
+      // 临时验证：打印一下当前的 Token，证明我们拿到了
+      console.log('当前使用的 Token:', wx.getStorageSync('token'));
+
+      wx.hideLoading();
+      wx.showToast({ title: '已加入购物车', icon: 'success' });
+      this.toggleSkuPopup(); // 关闭弹窗
+    } catch (error) {
+      wx.hideLoading();
+      wx.showToast({ title: '登录失败，无法加购', icon: 'none' });
+    }
   },
 });
