@@ -1,5 +1,9 @@
 {
-  "pages": ["pages/index/index", "pages/goods/details/index"],
+  "pages": [
+    "pages/index/index",
+    "pages/goods/details/index",
+    "pages/user/index"
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom"

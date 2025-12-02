@@ -1,6 +1,7 @@
 import { AuthService } from '@/api/auth';
 import { request } from '../../../utils/request';
 import { extractSpecs, SpecItem } from '../../../utils/sku-helper';
+import { addToCart } from '@/api/cart';
 
 interface ProductDetail {
   id: string;
@@ -111,14 +112,10 @@ Page({
       // 2. 登录成功后，执行加购业务 (这里先模拟请求一个需要权限的接口)
       // 比如我们把加入购物车接口先假定为 POST /cart (你需要去后端实现它，或者暂时先打印 Token 验证)
 
-      /* await request('/cart', { 
-         method: 'POST', 
-         data: { skuId: this.data.currentSku.id, count: 1 } 
-       });
-      */
-
-      // 临时验证：打印一下当前的 Token，证明我们拿到了
-      console.log('当前使用的 Token:', wx.getStorageSync('token'));
+      await addToCart({
+        skuId: this.data.currentSku.id,
+        count: 1, // 暂时默认加1，以后可以做数量选择器
+      });
 
       wx.hideLoading();
       wx.showToast({ title: '已加入购物车', icon: 'success' });

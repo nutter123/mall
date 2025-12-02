@@ -1,0 +1,122 @@
+// ==========================================
+//  Mini Program Atomic CSS (Tailwind-like)
+//  适配单位: rpx
+// ==========================================
+
+// --- 1. 布局 Layout ---
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.grow { flex-grow: 1; }
+.shrink { flex-shrink: 1; }
+.shrink-0 { flex-shrink: 0; }
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.hidden { display: none; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+// --- 2. 尺寸 Sizing ---
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.w-screen { width: 100vw; }
+.h-screen { height: 100vh; }
+
+// --- 3. 间距 Spacing Generator ---
+// 映射规则: 1 = 8rpx, 2 = 16rpx, 4 = 32rpx ... (符合 8点栅格系统)
+$spacing-map: (
+  0: 0,
+  1: 8rpx,
+  2: 16rpx,
+  3: 24rpx,
+  4: 32rpx,
+  5: 40rpx,
+  6: 48rpx,
+  8: 64rpx,
+  10: 80rpx,
+  12: 96rpx,
+  16: 128rpx,
+  20: 160rpx,
+  24: 192rpx,
+  32: 256rpx
+);
+
+@each $key, $val in $spacing-map {
+  // Margin
+  .m-#{$key} { margin: $val; }
+  .mt-#{$key} { margin-top: $val; }
+  .mb-#{$key} { margin-bottom: $val; }
+  .ml-#{$key} { margin-left: $val; }
+  .mr-#{$key} { margin-right: $val; }
+  .mx-#{$key} { margin-left: $val; margin-right: $val; }
+  .my-#{$key} { margin-top: $val; margin-bottom: $val; }
+  
+  // Padding
+  .p-#{$key} { padding: $val; }
+  .pt-#{$key} { padding-top: $val; }
+  .pb-#{$key} { padding-bottom: $val; }
+  .pl-#{$key} { padding-left: $val; }
+  .pr-#{$key} { padding-right: $val; }
+  .px-#{$key} { padding-left: $val; padding-right: $val; }
+  .py-#{$key} { padding-top: $val; padding-bottom: $val; }
+}
+
+// --- 4. 字体 Typography ---
+.text-xs { font-size: 20rpx; }
+.text-sm { font-size: 24rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 36rpx; }
+.text-2xl { font-size: 40rpx; }
+.text-3xl { font-size: 48rpx; }
+
+.font-bold { font-weight: bold; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: normal; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// --- 5. 颜色 Colors (仅定义常用，复杂的建议用 class) ---
+.text-white { color: #ffffff; }
+.text-black { color: #000000; }
+.text-gray-500 { color: #999999; }
+.text-primary { color: #fa4126; } // TDesign 品牌红
+
+.bg-white { background-color: #ffffff; }
+.bg-gray-100 { background-color: #f5f5f5; }
+.bg-primary { background-color: #fa4126; }
+
+// --- 6. 边框与圆角 Borders ---
+.rounded { border-radius: 8rpx; }
+.rounded-md { border-radius: 12rpx; }
+.rounded-lg { border-radius: 16rpx; }
+.rounded-full { border-radius: 9999rpx; } // 圆形
+
+.border { border: 2rpx solid #eeeeee; }
+.border-b { border-bottom: 2rpx solid #eeeeee; }
