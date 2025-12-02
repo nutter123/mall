@@ -2,3 +2,4 @@ node_modules
 docker-data
 miniprogram_npm/
 .umi/
+dist/

@@ -6,9 +6,14 @@ import {
   ProFormDigit,
   ProFormList,
   ProFormMoney,
+  ProFormUploadButton,
 } from '@ant-design/pro-components';
 import { message } from 'antd';
 import { createProduct } from '@/services/product';
+import { CreateProductDto } from '@/types';
+
+// 定义后端上传接口地址
+const UPLOAD_ACTION = 'http://localhost:3000/upload';
 
 export default function CreateProductPage() {
   return (
@@ -17,13 +22,49 @@ export default function CreateProductPage() {
         onFinish={async (values) => {
           console.log('表单提交数据:', values);
 
-          // 1. 数据清洗（前端表单结构 -> 后端接口结构）
+          // 数据清洗（前端表单结构 -> 后端接口结构）
+          // 处理主图 (Main Image)
+          // AntD Upload 返回的是数组，我们需要取出第一个文件，并从 response.data.url 里拿地址
+          // 结构: values.mainImage[0].response.data.url
+          let mainImageUrl = '';
+          if (values.mainImage && values.mainImage[0]?.response) {
+            // 如果是刚刚上传的
+            mainImageUrl = values.mainImage[0].response.data?.url;
+          } else if (typeof values.mainImage === 'string') {
+            // 如果是回填的字符串（编辑模式）
+            mainImageUrl = values.mainImage;
+          }
+
+          // 2. 处理轮播图 (Images) - 多图
+          let slideImages: string[] = [];
+          if (values.images && Array.isArray(values.images)) {
+            slideImages = values.images
+              .map((item: any) => {
+                // 如果是新上传的，从 response 里取
+                if (item.response) return item.response.data?.url;
+                // 如果是旧图，直接返回 url 属性
+                return item.url;
+              })
+              .filter(Boolean); // 过滤掉空值
+          }
           // 我们的后端 SKU attributes 是 Record<string,string>，但前端列表可能是数组
           // 为了 MVP 演示，我们这里先原样发送，或者稍作转换
           // 假设我们在前端就让用户输入 "Color" 和 "Version" 两个固定属性作为演示
 
+          const payload = {
+            ...values,
+            mainImage: mainImageUrl, // 替换为纯字符串
+            images: slideImages, // 替换为字符串数组
+            // skus 的 attributes 暂时保持原样，如果需要转换可以在这里写
+          } as CreateProductDto;
+
+          if (!mainImageUrl) {
+            message.error('请上传商品主图');
+            return false;
+          }
+
           try {
-            await createProduct(values);
+            await createProduct(payload);
             message.success('商品发布成功！');
             return true;
           } catch (error) {
@@ -40,11 +81,28 @@ export default function CreateProductPage() {
           rules={[{ required: true, message: '标题必填' }]}
         />
 
-        <ProFormText
+        <ProFormUploadButton
           name="mainImage"
-          label="主图 URL"
-          placeholder="暂时先手动输入图片链接"
-          initialValue="https://via.placeholder.com/150"
+          label="商品主图"
+          max={1} // 限制单张
+          fieldProps={{
+            name: 'file', // ⚠️ 必须和 NestJS Controller @UseInterceptors(FileInterceptor('file')) 里的字段名一致
+            listType: 'picture-card',
+          }}
+          action={UPLOAD_ACTION}
+          rules={[{ required: true, message: '请上传主图' }]}
+        />
+
+        <ProFormUploadButton
+          name="images"
+          label="轮播图 (多张)"
+          max={5}
+          fieldProps={{
+            name: 'file',
+            listType: 'picture-card',
+            multiple: true,
+          }}
+          action={UPLOAD_ACTION}
         />
 
         <ProFormTextArea name="description" label="商品描述" />
