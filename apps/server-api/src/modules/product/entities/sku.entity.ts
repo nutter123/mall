@@ -8,9 +8,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('skus')
-export class Sku {
+export class Sku extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

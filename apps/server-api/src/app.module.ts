@@ -32,7 +32,7 @@ import { CartModule } from './modules/cart/cart.module';
         // 自动加载实体 (Entity)
         autoLoadEntities: true,
         // 【注意】生产环境要关掉！它会自动根据 Entity 修改数据库表结构，非常方便但危险
-        synchronize: true,
+        synchronize: false,
       }),
     }),
 

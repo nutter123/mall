@@ -1,6 +1,5 @@
 // apps/server-api/tsconfig.json
 {
-  "extends": "../../tsconfig.base.json", // 继承根配置
   "compilerOptions": {
     "module": "commonjs",
     "declaration": false,
@@ -11,8 +10,13 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
+    "baseUrl": ".",
+    "incremental": true,
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test"]
