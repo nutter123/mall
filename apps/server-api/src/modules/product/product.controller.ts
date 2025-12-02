@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import { Cacheable } from '../../common/decorators/cacheable.decorator';
 
 @Controller('products') // 路由前缀: /products
 export class ProductController {
@@ -16,7 +17,9 @@ export class ProductController {
 
   @Get()
   @Public()
+  @Cacheable(60, 'product_list')
   findAll() {
+    console.log('--- 这一行只有缓存失效时才会打印 ---');
     return this.productService.findAll();
   }
 

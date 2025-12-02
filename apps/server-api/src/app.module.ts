@@ -14,6 +14,11 @@ import { ClsModule } from 'nestjs-cls';
 import { v4 as uuid4 } from 'uuid';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { CacheModule } from '@nestjs/cache-manager';
+import * as redisStore from 'cache-manager-redis-store';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { HttpCacheInterceptor } from './common/interceptors/cache.interceptor';
 
 @Module({
   imports: [
@@ -38,6 +43,13 @@ import * as winston from 'winston';
         }),
         // 实际生产中通常还会加一个 DailyRotateFile 存文件，这里仅演示 Console
       ],
+    }),
+    CacheModule.register({
+      isGlobal: true, // 全局可用
+      store: redisStore,
+      host: process.env.DB_HOST || 'localhost', // 使用 docker-compose 里的 Redis
+      port: 6379,
+      ttl: 60, // 默认 60秒
     }),
     // 1. 加载配置模块 (读取 .env)
     ConfigModule.forRoot({
@@ -74,11 +86,20 @@ import * as winston from 'winston';
   ],
   controllers: [AppController],
   providers: [
-    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    // 2. 缓存拦截器
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpCacheInterceptor,
+    },
+    AppService,
   ],
 })
 export class AppModule {}

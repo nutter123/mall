@@ -1,11 +1,21 @@
 /**app.wxss**/
-@import "./styles/utilities";
+@import './styles/utilities';
 
 page {
   background-color: #f5f5f5;
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
-    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    Helvetica,
+    Segoe UI,
+    Arial,
+    Roboto,
+    'PingFang SC',
+    'miui',
+    'Hiragino Sans GB',
+    'Microsoft Yahei',
     sans-serif;
 }
 
@@ -17,4 +27,10 @@ page {
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
+}
+
+// 主题色
+$theme-color: #ff212a;
+.theme-color {
+  color: $theme-color;
 }

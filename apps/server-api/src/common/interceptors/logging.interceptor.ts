@@ -1,7 +1,7 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ClsService } from 'nestjs-cls';
+import { ClsService, CLS_ID } from 'nestjs-cls';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -14,21 +14,35 @@ export class LoggingInterceptor implements NestInterceptor {
     const { method, url, body } = request;
     const startTime = Date.now();
 
-    // 从 CLS 中获取 TraceID
-    const traceId = this.cls.getId();
+    let traceId = '';
+    try {
+      // 方式A: 尝试直接获取 (有些版本支持)
+      // @ts-ignore
+      if (typeof this.cls.getId === 'function') {
+        // @ts-ignore
+        traceId = this.cls.getId();
+      }
+      // 方式B: 使用常量 Key 获取 (最稳妥)
+      else {
+        traceId = this.cls.get(CLS_ID);
+      }
+    } catch (e) {
+      // 忽略 CLS 错误
+    }
+
+    if (!traceId) {
+      traceId = request.headers['x-trace-id'] || request.id || 'no-trace';
+    }
 
     return next.handle().pipe(
       tap((data) => {
         const duration = Date.now() - startTime;
 
-        // 打印结构化日志
         this.logger.log({
-          traceId, // 🔑 关键：链路ID
+          traceId,
           method,
           url,
           duration: `${duration}ms`,
-          // body,       // 注意：生产环境尽量不要打印 body，防止泄露密码等敏感信息
-          // response: data, // 响应体同理，按需开启
         });
       }),
     );
