@@ -1,10 +1,12 @@
-export default (initialState: API.UserInfo) => {
-  // 在这里按照初始化数据定义项目中的权限，统一管理
-  // 参考文档 https://umijs.org/docs/max/access
-  const canSeeAdmin = !!(
-    initialState && initialState.name !== 'dontHaveAccess'
-  );
+export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
+  const { currentUser } = initialState ?? {};
+
   return {
-    canSeeAdmin,
+    // 定义一个权限叫 canAdmin
+    // 逻辑：如果当前用户的 role 是 'admin'，则拥有此权限
+    canAdmin: currentUser && currentUser.role === 'admin',
+
+    // 你可以扩展更多
+    // canDeleteProduct: currentUser?.permissions?.includes('product:delete'),
   };
-};
+}

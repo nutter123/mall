@@ -7,10 +7,12 @@ import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
+import { AdminUser } from '../user/entities/admin-user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]), // 引入 User 表操作权限
+    TypeOrmModule.forFeature([AdminUser]), // 引入 User 表操作权限
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

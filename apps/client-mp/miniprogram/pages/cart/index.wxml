@@ -1,0 +1,62 @@
+<view class="pb-24 bg-gray-100 min-h-screen">
+  <!-- 空状态 -->
+  <view wx:if="{{isEmpty}}" class="flex flex-col items-center justify-center pt-20">
+    <t-icon name="cart" size="64" color="#ccc" />
+    <view class="text-gray-500 mt-4 text-sm">购物车空空如也</view>
+    <t-button size="small" theme="primary" class="mt-4" bindtap="goHome">去逛逛</t-button>
+  </view>
+
+  <!-- 购物车列表 -->
+  <view wx:else class="p-3">
+    <view class="bg-white rounded-lg p-3 mb-3 flex items-center" wx:for="{{cartList}}" wx:key="id">
+      <!-- 勾选框 -->
+      <view class="mr-3" bindtap="onSelect" data-index="{{index}}">
+        <t-icon
+          name="{{item.selected ? 'check-circle-filled' : 'circle'}}"
+          size="24"
+          color="{{item.selected ? '#FA4126' : '#ccc'}}"
+        />
+      </view>
+
+      <!-- 商品图 -->
+      <t-image
+        src="{{item.sku.product.mainImage}}"
+        width="160rpx"
+        height="160rpx"
+        class="rounded bg-gray-100 shrink-0"
+      />
+
+      <!-- 信息区 -->
+      <view class="ml-3 flex flex-col justify-between grow h-20">
+        <view class="text-sm text-black truncate w-40">{{item.sku.product.title}}</view>
+        <view class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded inline-block self-start mt-1">
+          <!-- 这里的 attributes 需要解析 JSON，简单起见先不展示详情 -->
+          {{item.skuId}}
+        </view>
+
+        <view class="flex justify-between items-end mt-2">
+          <view class="text-primary font-bold text-lg">¥ {{item.sku.price}}</view>
+          <t-stepper value="{{item.count}}" theme="grey" size="small" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部结算栏 -->
+  <view
+    class="fixed bottom-0 left-0 w-full bg-white flex items-center justify-between px-4 py-2 border-b shadow-lg z-50 safe-area-bottom"
+  >
+    <view class="flex items-center">
+      <t-icon name="circle" size="24" color="#ccc" />
+      <text class="ml-2 text-sm text-gray-500">全选</text>
+    </view>
+
+    <view class="flex items-center">
+      <view class="mr-3">
+        <text class="text-sm">合计：</text>
+        <text class="text-primary font-bold text-xl">¥ {{totalAmount / 100}}</text>
+      </view>
+      <t-button theme="primary" size="large" bindtap="onCheckout">去结算</t-button>
+    </view>
+  </view>
+</view>

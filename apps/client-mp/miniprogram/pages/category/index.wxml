@@ -1,0 +1,26 @@
+<view class="flex h-screen bg-white">
+  <!-- 左侧：使用 TDesign 的 SideBar -->
+  <t-side-bar value="{{sidebarIndex}}" bind:change="onSideBarChange" class="h-full bg-gray-100 custom-sidebar">
+    <t-side-bar-item wx:for="{{categories}}" wx:key="label" value="{{index}}" label="{{item.label}}" />
+  </t-side-bar>
+
+  <!-- 右侧：滚动区域 -->
+  <!-- flex-1 让它自动占满剩余宽度 -->
+  <scroll-view scroll-y class="grow h-full bg-white p-3">
+    <!-- 顶部 Banner -->
+    <view class="w-full h-24 bg-gray-100 rounded-lg mb-4 flex items-center justify-center text-gray-500 text-sm">
+      {{categories[sidebarIndex].title}} Banner区域
+    </view>
+
+    <!-- 分类标题 -->
+    <view class="text-base font-bold mb-3 text-black"> {{categories[sidebarIndex].title}} </view>
+
+    <!-- 商品 Grid -->
+    <view class="flex flex-wrap">
+      <view class="flex flex-col items-center w-33 mb-4" wx:for="{{9}}" wx:key="*this" style="width: 33.33%">
+        <t-image src="{{mockImg}}" width="120rpx" height="120rpx" class="mb-2" />
+        <view class="text-xs text-gray-500">商品{{index + 1}}</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

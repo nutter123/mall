@@ -1,6 +1,5 @@
 // apps/admin-web/tsconfig.json
 {
-  "extends": "../../tsconfig.base.json", // 继承根配置
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -12,10 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "@@/*": ["src/.umi/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./**/*.d.ts", "./**/*.ts", "./**/*.tsx"],
   "exclude": ["node_modules"]
 }

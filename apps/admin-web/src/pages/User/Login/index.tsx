@@ -1,95 +1,223 @@
-import { LoginForm, ProFormText, ProFormCheckbox } from '@ant-design/pro-components';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { message, Tabs } from 'antd';
-import { useState } from 'react';
-import { history, useModel } from '@umijs/max';
-// 引入 Tailwind 后，我们可以直接写 className
-import styles from './index.less'; // 依然保留 CSS Modules 用于复杂背景处理
+import {
+  AlipayCircleOutlined,
+  LockOutlined,
+  MobileOutlined,
+  TaobaoCircleOutlined,
+  UserOutlined,
+  WeiboCircleOutlined,
+} from '@ant-design/icons';
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, Helmet, request, useIntl, useModel, useNavigate, history, useRequest } from '@umijs/max';
+import { Alert, App } from 'antd';
+import { createStyles } from 'antd-style';
+import React, { useState } from 'react';
+import { flushSync } from 'react-dom';
+import { Footer } from '@/components';
+import { login } from '@/services/ant-design-pro/api';
+import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import Settings from '../../../../config/defaultSettings';
 
-export default () => {
-  const [loginType, setLoginType] = useState<string>('account');
+// 定义登录参数类型
+interface LoginParams {
+  username?: string;
+  password?: string;
+  autoLogin?: boolean;
+}
+
+const useStyles = createStyles(({ token }) => {
+  return {
+    action: {
+      marginLeft: '8px',
+      color: 'rgba(0, 0, 0, 0.2)',
+      fontSize: '24px',
+      verticalAlign: 'middle',
+      cursor: 'pointer',
+      transition: 'color 0.3s',
+      '&:hover': {
+        color: token.colorPrimaryActive,
+      },
+    },
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      overflow: 'auto',
+      backgroundImage: "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
+      backgroundSize: '100% 100%',
+    },
+    content: {
+      flex: 1,
+      padding: '32px 0',
+    },
+    prefixIcon: {
+      color: '#1890ff',
+      fontSize: '18px',
+      verticalAlign: 'middle',
+    },
+  };
+});
+
+const LoginMessage: React.FC<{
+  content: string;
+}> = ({ content }) => {
+  return (
+    <Alert
+      style={{
+        marginBottom: 24,
+      }}
+      message={content}
+      type="error"
+      showIcon
+    />
+  );
+};
+
+const Login: React.FC = () => {
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
-  const handleSubmit = async (values: any) => {
-    try {
-      // 模拟登录请求，替换为你真实的 request 调用
-      // const msg = await login({ ...values, type: loginType });
-      console.log('登录数据', values);
+  // 增加一个状态来切换 "登录" 和 "注册" 模式
+  const [isRegister, setIsRegister] = useState(false);
 
-      message.success('登录成功！');
+  const { styles } = useStyles();
+  const { message } = App.useApp();
+  const intl = useIntl();
 
-      // 保存 Token (假设返回了 token)
-      localStorage.setItem('token', 'mock-admin-token');
-
-      // 跳转首页
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
-      return;
-    } catch (error) {
-      message.error('登录失败，请重试');
+  const fetchUserInfo = async () => {
+    const userInfo = await initialState?.fetchUserInfo?.();
+    if (userInfo) {
+      flushSync(() => {
+        setInitialState((s) => ({
+          ...s,
+          currentUser: userInfo,
+        }));
+      });
     }
   };
 
-  return (
-    // 使用 Tailwind 快速布局背景
-    <div className="flex flex-col h-screen w-full bg-gray-100 justify-center items-center overflow-hidden">
-      <div className="w-[400px] bg-white shadow-xl rounded-xl p-8 z-10">
-        <div className="mb-8 text-center">
-          <img className="h-10 inline-block mr-3" src="/logo.svg" alt="logo" />
-          <span className="text-2xl font-bold text-gray-700 align-middle">Mall Admin</span>
-          <div className="mt-2 text-gray-400 text-sm">基于 NestJS + React 的全栈商城后台</div>
-        </div>
+  const handleSubmit = async (values: API.LoginParams) => {
+    const apiPath = isRegister ? '/auth/admin/register' : '/auth/admin/login';
 
+    const res = await request(apiPath, {
+      method: 'POST',
+      data: values,
+    });
+    const { data } = res;
+
+    if (isRegister) {
+      message.success('注册成功，请直接登录');
+      setIsRegister(false); // 切回登录模式
+      return;
+    }
+
+    // === 登录成功逻辑 ===
+    message.success('登录成功！');
+
+    // 1. 存 Token
+    localStorage.setItem('token', data.token);
+    // 2. 存全局用户信息
+    await fetchUserInfo();
+    // 3. 跳转
+    const urlParams = new URL(window.location.href).searchParams;
+    history.push(urlParams.get('redirect') || '/');
+  };
+  const { status, type: loginType } = userLoginState;
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
         <LoginForm
-          contentStyle={{ minWidth: 280, maxWidth: '75vw' }}
-          logo="/logo.svg"
+          logo={<img alt="logo" src="/logo.svg" />}
           title="Mall Admin"
-          subTitle=" "
-          initialValues={{ autoLogin: true }}
+          subTitle="企业级全栈商城管理后台"
+          initialValues={{
+            autoLogin: true,
+          }}
+          // 这里的 actions 是表单底部的自定义区域
+          actions={
+            <div style={{ marginBottom: 24, textAlign: 'center' }}>
+              {isRegister ? (
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsRegister(false);
+                  }}
+                >
+                  已有账号？去登录
+                </a>
+              ) : (
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsRegister(true);
+                  }}
+                >
+                  没有账号？点击注册
+                </a>
+              )}
+            </div>
+          }
           onFinish={async (values) => {
-            await handleSubmit(values);
+            await handleSubmit(values as LoginParams);
+          }}
+          submitter={{
+            searchConfig: {
+              submitText: isRegister ? '注册' : '登录',
+            },
           }}
         >
-          <Tabs
-            activeKey={loginType}
-            onChange={setLoginType}
-            centered
-            items={[{ key: 'account', label: '账号密码登录' }]}
-          />
+          {/* 只有在登录失败且当前是登录模式时显示错误条 */}
+          {userLoginState.status === 'error' && userLoginState.type === 'account' && !isRegister && (
+            <LoginMessage content="账户或密码错误" />
+          )}
 
-          {loginType === 'account' && (
+          {type === 'account' && (
             <>
               <ProFormText
                 name="username"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined className="prefixIcon" />,
+                  prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'用户名: admin'}
-                rules={[{ required: true, message: '请输入用户名!' }]}
+                placeholder={'请输入用户名'}
+                rules={[
+                  {
+                    required: true,
+                    message: '用户名是必填项！',
+                  },
+                ]}
               />
               <ProFormText.Password
                 name="password"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className="prefixIcon" />,
+                  prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: admin123'}
-                rules={[{ required: true, message: '请输入密码！' }]}
+                placeholder={'请输入密码'}
+                rules={[
+                  {
+                    required: true,
+                    message: '密码是必填项！',
+                  },
+                  isRegister ? { min: 6, message: '密码至少6位' } : {},
+                ]}
               />
             </>
           )}
 
-          <div className="mb-6">
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-            <a className="float-right text-blue-500">忘记密码</a>
-          </div>
+          {!isRegister && (
+            <div style={{ marginBottom: 24 }}>
+              <ProFormCheckbox noStyle name="autoLogin">
+                自动登录
+              </ProFormCheckbox>
+              <a style={{ float: 'right' }}>忘记密码</a>
+            </div>
+          )}
         </LoginForm>
       </div>
-
-      <div className="mt-8 text-gray-400 text-sm text-center">Powered by Ant Design Pro & Tailwind CSS</div>
     </div>
   );
 };
+
+export default Login;
