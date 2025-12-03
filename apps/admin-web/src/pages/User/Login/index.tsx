@@ -16,6 +16,7 @@ import { Footer } from '@/components';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import Settings from '../../../../config/defaultSettings';
+import { authControllerLoginAdmin, authControllerRegisterAdmin } from '@/services/mall/auth';
 
 // 定义登录参数类型
 interface LoginParams {
@@ -97,30 +98,39 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async (values: API.LoginParams) => {
-    const apiPath = isRegister ? '/auth/admin/register' : '/auth/admin/login';
+    try {
+      if (isRegister) {
+        const data = await authControllerRegisterAdmin(values);
+        if (data.status === 200) {
+          message.success('注册成功，请直接登录');
+          setIsRegister(false); // 切回登录模式
+          return;
+        }
+      }
+      const data = await authControllerLoginAdmin(values);
+      if (data.status === 200) {
+        message.success('登录成功！');
+        // 1. 存 Token
+        localStorage.setItem('token', data.token);
+        // 2. 存全局用户信息
+        await fetchUserInfo();
+        // 3. 跳转
+        return;
+      }
 
-    const res = await request(apiPath, {
-      method: 'POST',
-      data: values,
-    });
-    const { data } = res;
+      // === 登录成功逻辑 ===
+      message.success('登录成功！');
 
-    if (isRegister) {
-      message.success('注册成功，请直接登录');
-      setIsRegister(false); // 切回登录模式
-      return;
+      // 1. 存 Token
+      localStorage.setItem('token', data.token);
+      // 2. 存全局用户信息
+      await fetchUserInfo();
+      // 3. 跳转
+      const urlParams = new URL(window.location.href).searchParams;
+      history.push(urlParams.get('redirect') || '/');
+    } catch (error) {
+      message.error('登录失败');
     }
-
-    // === 登录成功逻辑 ===
-    message.success('登录成功！');
-
-    // 1. 存 Token
-    localStorage.setItem('token', data.token);
-    // 2. 存全局用户信息
-    await fetchUserInfo();
-    // 3. 跳转
-    const urlParams = new URL(window.location.href).searchParams;
-    history.push(urlParams.get('redirect') || '/');
   };
   const { status, type: loginType } = userLoginState;
 

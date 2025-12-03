@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +21,7 @@ export class AuthController {
   }
 
   @Public()
+  @ApiOperation({ summary: '管理员登录', operationId: 'adminLogin' }) // 操作 ID 用于 Swagger 文档
   @Post('admin/login')
   async loginAdmin(@Body() dto: any) {
     return this.authService.loginAdmin(dto);
