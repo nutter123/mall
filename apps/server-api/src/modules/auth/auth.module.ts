@@ -5,9 +5,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { AdminUser } from '../user/entities/admin-user.entity';
+import { AdminAuthController } from './controllers/admin-auth.controller';
+import { AppAuthController } from './controllers/app-auth.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,10 @@ import { AdminUser } from '../user/entities/admin-user.entity';
       }),
     }),
   ],
-  controllers: [AuthController],
+  controllers: [
+    AdminAuthController,
+    AppAuthController,
+  ],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })

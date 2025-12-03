@@ -1,4 +1,4 @@
-import type { IApiResponse } from '../types/index';
+import { ApiCode, type IApiResponse } from '../types/index';
 // 定义后端地址 (注意：小程序要求 HTTPS，本地开发需要在开发者工具勾选 "不校验合法域名")
 const BASE_URL = 'http://localhost:3000';
 
@@ -12,7 +12,7 @@ export const request = <T>(path: string, options: Omit<WechatMiniprogram.Request
     };
 
     if (token) {
-      header['Authorization'] = `Bearer ${token}`;
+      (header as any)['Authorization'] = `Bearer ${token}`;
     }
 
     wx.request({
@@ -30,10 +30,10 @@ export const request = <T>(path: string, options: Omit<WechatMiniprogram.Request
           return;
         }
 
-        if (apiRes.code === 200) {
+        if (apiRes.status === ApiCode.SUCCESS) {
           resolve(apiRes.data);
         } else {
-          wx.showToast({ title: apiRes.msg || '请求失败', icon: 'none' });
+          wx.showToast({ title: apiRes.prompt || '请求失败', icon: 'none' });
           reject(apiRes);
         }
       },

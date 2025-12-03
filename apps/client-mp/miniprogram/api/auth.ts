@@ -1,32 +1,32 @@
 import { request } from '../utils/request';
 
-// 定义登录返回结构
-interface LoginRes {
+// 定义符合公司接口返回的登录数据结构
+interface MpLoginRes {
   token: string;
-  userId: string;
+  openId: string;
+  unionId: string;
+  haveAuthorization: boolean;
 }
 
 export class AuthService {
-  // 核心登录流程
   static async login(): Promise<string> {
-    // 1. 检查是否已有有效 Token (简单的非空检查，严谨点可以检查有效期)
     const token = wx.getStorageSync('token');
     if (token) return token;
 
-    // 2. 调用微信原生登录，获取 code
-    // 这是一个 Promise 包装，防止回调地狱
     const { code } = await wx.login();
 
-    // 3. 把 code 发给后端
     try {
-      const res = await request<LoginRes>('/auth/login/mp', {
+      const res = await request<MpLoginRes>('/v2-app-mall/token/getByWechatMp', {
         method: 'POST',
-        data: { code },
+        data: {
+          appid: 'wx38d12f1dda8b9cac', // 使用你提供的 Mock AppID
+          jsCode: code,
+        },
       });
 
-      // 4. 保存 Token 到本地
       wx.setStorageSync('token', res.token);
-      wx.setStorageSync('userId', res.userId);
+      // 注意：公司接口没直接返回 userId，可能需要解码 Token 或调 /info/get 获取
+      // 这里暂时只存 token
 
       return res.token;
     } catch (error) {
@@ -35,7 +35,6 @@ export class AuthService {
     }
   }
 
-  // 检查是否已登录
   static checkLogin(): boolean {
     return !!wx.getStorageSync('token');
   }

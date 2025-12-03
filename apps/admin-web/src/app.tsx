@@ -1,5 +1,5 @@
 // 运行时配置
-import { IApiResponse } from './types/index';
+import { ApiCode, IApiResponse } from './types/index';
 import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { message } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
@@ -146,18 +146,18 @@ export const request: RequestConfig = {
   // 3. 响应拦截器 (只处理业务数据解包，HTTP错误交给 errorConfig)
   responseInterceptors: [
     (response) => {
-      const data = response.data as any;
+      const data = response.data as IApiResponse<any>;
       console.log('响应数据:', data);
 
       // 判断是否为后端返回的标准 JSON 结构
-      if (data && typeof data === 'object' && 'code' in data) {
+      if (data && typeof data === 'object' && 'status' in data) {
         // 业务成功
-        if (data.code === 200) {
+        if (data.status === ApiCode.SUCCESS) {
           return response; // 解包
         }
         // 业务失败 (如参数错误 40001)
         else {
-          message.error(data.msg || '业务处理失败');
+          message.error(data.prompt || '业务处理失败');
           return Promise.reject(data);
         }
       }
