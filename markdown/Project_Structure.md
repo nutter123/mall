@@ -23,48 +23,7 @@ mall-monorepo/
 
 ## 2. 应用层结构 (apps/)
 
-### 2.1 微信小程序应用 (apps/client-mp/)
-
-```
-client-mp/
-├── miniprogram/            # 小程序源码目录
-│   ├── api/               # API 接口封装
-│   │   ├── auth.ts        # 认证相关接口
-│   │   └── cart.ts        # 购物车相关接口
-│   ├── app.json           # 小程序全局配置
-│   ├── app.scss           # 小程序全局样式
-│   ├── app.ts             # 小程序入口文件
-│   ├── assets/            # 静态资源
-│   │   └── tabbar/        # 底部导航栏图标
-│   ├── components/        # 自定义组件
-│   │   ├── demo/          # 示例组件
-│   │   ├── navigation-bar/ # 导航栏组件
-│   │   └── search/        # 搜索组件
-│   ├── pages/             # 页面目录
-│   │   ├── cart/          # 购物车页面
-│   │   ├── category/      # 分类页面
-│   │   ├── demo/          # 示例页面
-│   │   ├── goods/         # 商品详情页面
-│   │   ├── home/          # 首页
-│   │   └── user/          # 用户中心页面
-│   ├── sitemap.json       # 小程序 sitemap 配置
-│   ├── styles/            # 样式文件
-│   │   └── _utilities.scss # 工具样式
-│   ├── types/             # 类型定义
-│   │   └── index.ts       # 全局类型定义
-│   └── utils/             # 工具函数
-│       ├── request.ts     # 网络请求封装
-│       ├── sku-helper.ts  # SKU 处理工具
-│       └── util.ts        # 通用工具函数
-├── package.json           # 小程序项目配置
-├── project.config.json    # 微信开发者工具项目配置
-├── project.private.config.json # 微信开发者工具私有配置
-├── tsconfig.json          # TypeScript 配置
-└── typings/               # 类型声明文件
-    └── index.d.ts         # 全局类型声明
-```
-
-### 2.2 后台管理应用 (apps/admin-web/)
+### 2.1 后台管理应用 (apps/admin-web/)
 
 ```
 admin-web/
@@ -183,8 +142,6 @@ markdown/
 ├── Project_Conventions.md # 项目约定
 ├── Project_Structure.md   # 项目结构文档
 ├── admin/                 # 后台管理应用文档
-├── client/                # 客户端应用文档
-│   └── WeChat_MP_Context.md # 微信小程序上下文文档
 └── server/                # 后端服务文档
 ```
 
@@ -238,7 +195,7 @@ markdown/
 
 ## 6. 数据流向
 
-1. 前端应用 (admin-web 或 client-mp) 发起 API 请求
+1. 前端应用 (admin-web) 发起 API 请求
 2. 后端服务 (server-api) 接收请求，进行业务处理
 3. 后端服务与数据库交互，获取或修改数据
 4. 后端服务返回响应给前端应用
@@ -246,8 +203,7 @@ markdown/
 
 ## 7. 技术栈分布
 
-| 应用       | 框架           | 语言       | UI 组件库           | 样式                |
-| ---------- | -------------- | ---------- | ------------------- | ------------------- |
-| admin-web  | React          | TypeScript | Ant Design Pro      | Less / Tailwind CSS |
-| client-mp  | 原生微信小程序 | TypeScript | TDesign Miniprogram | Sass                |
-| server-api | NestJS         | TypeScript | -                   | -                   |
+| 应用       | 框架           | 语言       | UI 组件库        | 样式                |
+| ---------- | -------------- | ---------- | ---------------- | ------------------- |
+| admin-web  | React          | TypeScript | Ant Design Pro   | Less / Tailwind CSS |
+| server-api | NestJS         | TypeScript | -                | -                   |

@@ -2,10 +2,9 @@
 
 ## 1. 项目概述
 
-本项目是一个基于 Monorepo 架构的电商系统，包含三个主要应用：
+本项目是一个基于 Monorepo 架构的电商系统，包含两个主要应用：
 
 - **后台管理系统 (admin-web)**：基于 React + Ant Design Pro 的管理后台，用于商品管理、订单管理、用户管理等
-- **微信小程序应用 (client-mp)**：基于原生微信小程序 + TypeScript + TDesign 的移动端应用，用于用户购物
 - **后端 API 服务 (server-api)**：基于 NestJS + TypeScript 的 API 服务，提供数据接口
 
 ## 2. 技术栈说明
@@ -13,7 +12,6 @@
 | 应用           | 技术栈                                                     |
 | -------------- | ---------------------------------------------------------- |
 | **admin-web**  | TypeScript, React, Ant Design Pro, Umi, Less, Tailwind CSS |
-| **client-mp**  | TypeScript, 微信小程序原生开发, TDesign Miniprogram, Sass  |
 | **server-api** | TypeScript, NestJS, TypeORM, MySQL, Redis                  |
 
 ## 3. 文档结构
@@ -28,8 +26,6 @@
 ### 3.2 应用层文档
 
 - [后台管理系统 (admin-web)](admin/)：后台管理系统的详细文档
-- [微信小程序应用 (client-mp)](client/)：微信小程序应用的详细文档
-  - [微信小程序上下文](client/WeChat_MP_Context.md)：微信小程序上下文说明
 - [后端 API 服务 (server-api)](server/)：后端 API 服务的详细文档
 
 ## 4. 快速开始
@@ -59,9 +55,6 @@ pnpm dev
 ```bash
 # 启动后台管理系统
 pnpm dev:admin
-
-# 启动微信小程序应用
-pnpm dev:client
 
 # 启动后端 API 服务
 pnpm dev:server

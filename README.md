@@ -10,15 +10,6 @@ mall-monorepo/
 ├── turbo.json                // (可选) Turborepo 缓存配置，加速构建
 │
 ├── apps/                     // 【应用层】：具体的项目代码
-│   ├── client-mp/            // 1. 微信小程序 (Native + TS + TDesign)
-│   │   ├── miniprogram/      // 小程序源码目录
-│   │   │   ├── app.ts
-│   │   │   ├── app.json
-│   │   │   ├── pages/        // 页面
-│   │   │   ├── components/   // 你的“提炼组件”战场
-│   │   │   └── api/          // 封装的请求层
-│   │   ├── package.json
-│   │   └── tsconfig.json
 │   │
 │   ├── admin-web/            // 2. 后台管理 (React + AntD Pro)
 │   │   ├── src/

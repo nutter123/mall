@@ -4,7 +4,6 @@
   "scripts": {
     "dev:server": "pnpm --filter server-api start:dev",
     "dev:admin": "pnpm --filter admin-web start",
-    "dev:client": "pnpm --filter client-mp dev",
     "dev": "turbo run dev:server dev:admin"
   },
   "devDependencies": {

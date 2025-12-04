@@ -41,9 +41,9 @@ mall-monorepo/
 
 ### 2.2 应用层结构
 
-每个应用（admin-web、client-mp、server-api）都应该遵循相似的目录结构模式：
+每个应用（admin-web、server-api）都应该遵循相似的目录结构模式：
 
-- `src/` 或 `miniprogram/`：源代码目录
+- `src/`：源代码目录
 - `components/`：公共组件
 - `pages/` 或 `modules/`：页面或业务模块
 - `api/` 或 `services/`：API 接口层
@@ -60,13 +60,7 @@ mall-monorepo/
 - Umi
 - Less / Tailwind CSS
 
-### 3.2 Client MP (微信小程序)
-
-- 原生微信小程序 + TypeScript
-- TDesign Miniprogram
-- Sass
-
-### 3.3 Server API (后端服务)
+### 3.2 Server API (后端服务)
 
 - NestJS + TypeScript
 - TypeORM
