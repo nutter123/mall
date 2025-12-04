@@ -1,4 +1,4 @@
-import { Entity, Column, Unique } from 'typeorm';
+import { Entity, Column, Unique, Index } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity';
 
 /**
@@ -12,7 +12,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 }
  */
 @Entity('category_filter_value')
-@Unique('uk_name', ['name'])
+@Index('idx_attribute_id', ['attributeId'])
 export class CategoryFilterValue extends BaseEntity {
 	@Column({ name: 'attribute_id' })
 	attributeId: number;

@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { Sku } from './sku.entity'; // 稍后创建这个文件
 import { BaseEntity } from '../../../common/entities/base.entity';
 
-@Entity('products') // 数据库表名
+@Entity('product') // 数据库表名
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') // 大厂标准：使用 UUID 而不是自增 ID，防止被爬虫遍历
   id!: string;
@@ -28,9 +28,4 @@ export class Product extends BaseEntity {
   @OneToMany(() => Sku, (sku) => sku.product, { cascade: true })
   skus: Sku[];
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

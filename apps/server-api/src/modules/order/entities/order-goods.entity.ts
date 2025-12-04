@@ -68,9 +68,6 @@ export class OrderGoods extends BaseEntity {
   @Column({ name: 'use_coupon', default: false, nullable: true })
   useCoupon: boolean;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
   @Column({ nullable: true })
   status: number;
 

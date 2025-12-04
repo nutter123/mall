@@ -36,16 +36,4 @@ export class SiteWecomEntrance extends BaseEntity {
 
   @Column({ type: 'text', nullable: true })
   remark: string;
-
-  @Column({ name: 'created_at', type: 'datetime', nullable: true })
-  createdAt: Date;
-
-  @Column({ name: 'created_by', length: 50, nullable: true })
-  createdBy: string;
-
-  @Column({ name: 'updated_at', type: 'datetime', nullable: true })
-  updatedAt: Date;
-
-  @Column({ name: 'updated_by', length: 50, nullable: true })
-  updatedBy: string;
 }

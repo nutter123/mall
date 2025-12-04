@@ -10,7 +10,7 @@ import {
 import { Product } from './product.entity';
 import { BaseEntity } from '../../../common/entities/base.entity';
 
-@Entity('skus')
+@Entity('sku')
 export class Sku extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -33,10 +33,4 @@ export class Sku extends BaseEntity {
   @ManyToOne(() => Product, (product) => product.skus, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'productId' }) // 数据库里会多一列 productId
   product: Product;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

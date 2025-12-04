@@ -22,10 +22,4 @@ export class PictureAdAreas extends BaseEntity {
 
   @Column({ name: 'area_rem', length: 255, nullable: true })
   areaRem: string;
-
-  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
 }

@@ -42,10 +42,4 @@ export class RecommendZone extends BaseEntity {
 
   @Column({ name: 'have_sensors', default: false, nullable: true })
   haveSensors: boolean;
-
-  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
 }

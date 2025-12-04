@@ -40,9 +40,4 @@ export class OrderDelivery extends BaseEntity {
   @Column({ name: 'delivery_remark', length: 255, nullable: true })
   deliveryRemark: string;
 
-  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
 }

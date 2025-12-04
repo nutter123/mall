@@ -11,7 +11,7 @@ import { User } from '../../user/entities/user.entity';
 import { Sku } from '../../product/entities/sku.entity';
 import { BaseEntity } from '../../../common/entities/base.entity';
 
-@Entity('cart_items')
+@Entity('cart_item')
 export class CartItem extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,10 +34,4 @@ export class CartItem extends BaseEntity {
   @ManyToOne(() => Sku)
   @JoinColumn({ name: 'skuId' })
   sku: Sku;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }
