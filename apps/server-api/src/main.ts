@@ -40,11 +40,13 @@ async function bootstrap() {
     .addBearerAuth() // 开启 Bearer Token 鉴权功能
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-
-  SwaggerModule.setup('api-docs', app, document, {
-    jsonDocumentUrl: 'api-docs/json', // 提供 JSON 格式供前端代码生成工具使用
-  });
+  // 只在开发环境或测试环境开启文档
+  if (process.env.NODE_ENV !== 'production') {
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document, {
+      jsonDocumentUrl: 'api-docs/json', // 提供 JSON 格式供前端代码生成工具使用
+    });
+  }
 
   await app.listen(3000);
   console.log(`Application is running on: http://localhost:3000`);

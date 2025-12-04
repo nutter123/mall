@@ -10,7 +10,7 @@ import { UserConverter } from './user.converter';
 import { JwtModule } from '../jwt/jwt.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, AdminUser, Address]), JwtModule],
+  imports: [TypeOrmModule.forFeature([User, AdminUser]), JwtModule],
   controllers: [
     AdminUserController, // 注册 Admin 控制器
     AppUserController, // 注册 App 控制器

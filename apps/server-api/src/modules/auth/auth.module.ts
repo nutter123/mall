@@ -19,7 +19,7 @@ import { AppAuthController } from './controllers/app-auth.controller';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET') || 'mall_secret_key',
+        secret: configService.getOrThrow('JWT_SECRET'),
         signOptions: { expiresIn: '7d' }, // Token 7天过期
       }),
     }),

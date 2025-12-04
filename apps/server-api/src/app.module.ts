@@ -19,6 +19,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { HttpCacheInterceptor } from './common/interceptors/cache.interceptor';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -74,6 +75,15 @@ import { HttpCacheInterceptor } from './common/interceptors/cache.interceptor';
       }),
     }),
 
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000, // 60秒
+          limit: 10, // 这里的策略是：同一IP，60秒内只能请求10次
+        },
+      ],
+    }),
+
     ProductModule,
 
     UploadModule,
@@ -93,6 +103,10 @@ import { HttpCacheInterceptor } from './common/interceptors/cache.interceptor';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     // 2. 缓存拦截器
     {
