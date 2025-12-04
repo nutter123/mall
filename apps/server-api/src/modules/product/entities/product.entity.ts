@@ -1,11 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { Sku } from './sku.entity'; // 稍后创建这个文件
 import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('product') // 数据库表名
 export class Product extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid') // 大厂标准：使用 UUID 而不是自增 ID，防止被爬虫遍历
-  id!: string;
 
   @Column({ comment: '商品名称' })
   title: string;

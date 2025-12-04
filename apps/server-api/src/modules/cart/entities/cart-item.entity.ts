@@ -1,11 +1,8 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Sku } from '../../product/entities/sku.entity';
@@ -13,8 +10,6 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('cart_item')
 export class CartItem extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
 
   @Column()
   userId: string; // 冗余字段，方便查询

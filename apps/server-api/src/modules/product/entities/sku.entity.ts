@@ -1,19 +1,14 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
+  JoinColumn
 } from 'typeorm';
 import { Product } from './product.entity';
 import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('sku')
 export class Sku extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
 
   // 价格使用 decimal 类型，精度 10，小数位 2
   // 注意：在 JS 中会被读取为 string，需要手动转 number，这是为了精度安全
