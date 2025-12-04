@@ -17,10 +17,10 @@ import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.dec
 import { CommonHeadersWithoutSiteId } from '../../common/decorators/common-headers-without-site-id.decorator';
 import type { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
 import type { CommonHeadersWithoutSiteIdDto } from '../../common/decorators/common-headers-without-site-id.decorator';
-import { UserVO } from '../user/vo/user.vo';
 import { AllInfoVO } from '../user/vo/all-info.vo';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import { UserService } from '../user/user.service';
+import { User } from '../user/entities/user.entity';
 
 @ApiTags('个人信息接口')
 @Controller('info')
@@ -33,8 +33,8 @@ export class InfoController {
   @Get('/get')
   @ApiOperation({summary: '1. 获取个人信息'})
   @ApiCommonHeaders()
-  @ApiResWrapper(UserVO)
-  async get(@CommonHeaders() headers: CommonHeadersDto): Promise<UserVO> {
+  @ApiResWrapper(User)
+  async get(@CommonHeaders() headers: CommonHeadersDto): Promise<User> {
     return await this.userService.getUserInfo();
   }
 

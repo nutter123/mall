@@ -3,8 +3,6 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('picture_ads')
 export class PictureAds extends BaseEntity {
-  @Column({ type: 'bigint', unsigned: true })
-  id: number;
 
   @Column({ length: 255 })
   name: string;

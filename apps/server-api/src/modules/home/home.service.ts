@@ -62,7 +62,7 @@ export class HomeService {
 
     // 1. 获取站点详情 (Java: siteMapper.selectById)
     const siteDO: Site | null = await this.siteRepo.findOne({
-      where: { id: siteIdBigInt },
+      where: { id: siteId },
     });
 
     if (!siteDO) {
@@ -73,13 +73,13 @@ export class HomeService {
 
     // 2. 获取企微入口支持表 (Java: siteWecomEntranceMapper.selectOne)
     const weComEntranceDO: SiteWecomEntrance | null = await this.siteWecomEntranceRepo.findOne({
-      where: { siteId: siteIdBigInt }, // SiteId 是 unique
+      where: { siteId: siteId }, // SiteId 是 unique
     });
     if (!weComEntranceDO) {
       throw new BusinessException('E4009', '企微入口配置信息缺失');
     }
     const weComEntrance: SiteWecomEntranceVO = this.weComEntranceConverter.toVO(weComEntranceDO);
-    homeAllConfigVO.weComEntrance = this.weComEntranceConverter.toVO(weComEntranceDO);
+    homeAllConfigVO.weComEntrance = weComEntrance;
 
     // --- 动态数据填充 ---
     // ⚠️ 模拟 setter 赋值，需要确保 DTO/VO 属性是 Public 的
@@ -159,7 +159,7 @@ export class HomeService {
 
     // 站点信息
     const siteDO: Site | null = await this.siteRepo.findOne({
-      where: { id: siteIdBigInt },
+      where: { id: String(siteId) },
     });
     if (!siteDO) {
       throw new BusinessException('E4008', '站点配置信息缺失');

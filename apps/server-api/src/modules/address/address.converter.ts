@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AddressDetailVO } from './vo/AddressDetail.vo';
 import { plainToInstance } from 'class-transformer';
-import {AddressVO} from "./vo/Address.vo";
+import { Address } from './entities/address.entity';
 
 @Injectable()
 export class AddressConverter {
@@ -10,7 +10,7 @@ export class AddressConverter {
   }
 
   // entity 转 vo
-  toAddressVO(entity: Address): AddressVO {
-    return plainToInstance(AddressVO, entity);
+  toAddressVO(entity: Address): Address {
+    return plainToInstance(Address, entity);
   }
 }

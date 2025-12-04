@@ -25,6 +25,7 @@
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/typeorm.datasource.ts"
   },
   "dependencies": {
+    "@nestjs/axios": "^4.0.1",
     "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -41,6 +42,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
     "minio": "^8.0.6",
     "mysql2": "^3.15.3",
     "nest-winston": "^1.10.2",
@@ -65,6 +67,7 @@
     "@types/cache-manager-redis-store": "^2.0.4",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
     "@types/passport-jwt": "^4.0.1",

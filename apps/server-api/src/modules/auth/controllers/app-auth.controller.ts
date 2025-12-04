@@ -25,8 +25,8 @@ export class AppAuthController {
     
     // 组装成公司接口的形状 (Adapter Pattern)
     return {
-      unionId: result.openid, // 暂时用 openid 模拟 unionid
-      openId: result.openid,
+      unionId: result.openId, // 暂时用 openid 模拟 unionid
+      openId: result.openId,
       token: result.token,
       haveAuthorization: true,
       secondPhoneVo: null, // 兼容字段

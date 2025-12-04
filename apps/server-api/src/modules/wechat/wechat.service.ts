@@ -82,7 +82,7 @@ export class WechatService {
           grant_type: 'authorization_code',
         },
       });
-      const response = await firstValueFrom(response$);
+      const response = await firstValueFrom(response$) as { data: any };
 
       const data = response.data;
       this.logger.log(`获取 session_key 成功: ${JSON.stringify(data)}`);
@@ -97,7 +97,7 @@ export class WechatService {
         );
       }
       return data.openid; // 返回包含 openid 和 session_key 的对象
-    } catch (error) {
+    } catch (error: any) {
       // 捕获 HTTP 错误或业务错误
       this.logger.error(`获取 session_key 失败: ${error.message}`, error.stack);
 
@@ -132,7 +132,7 @@ export class WechatService {
 
       const { data } = await firstValueFrom(
         this.httpService.post(url, paramMap),
-      );
+      ) as { data: any };
 
       // 解析返回结果
       if (data.errcode === 0) {
@@ -143,7 +143,7 @@ export class WechatService {
         this.logger.error(`获取手机号失败: ${JSON.stringify(data)}`);
         throw new BusinessException('E4001', `获取手机号失败: ${data.errmsg}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`获取手机号异常: ${error.message}`, error.stack);
       if (error instanceof BusinessException) {
         throw error;
@@ -173,7 +173,7 @@ export class WechatService {
     try {
       const finalUrl = `${url}?grant_type=client_credential&appid=${appId}&secret=${appSecret}`;
 
-      const { data } = await firstValueFrom(this.httpService.get(finalUrl));
+      const { data } = await firstValueFrom(this.httpService.get(finalUrl)) as { data: any };
 
       if (data.access_token) {
         return data.access_token;
@@ -181,10 +181,10 @@ export class WechatService {
         this.logger.error(`获取 access_token 失败: ${JSON.stringify(data)}`);
         throw new BusinessException(
           'E4001',
-          `获取 access_token 失败: ${data.errmsg}`,
+          `获取 access_token 失败: ${data.errmsg || '未知错误'}`,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `获取 access_token 异常: ${error.message}`,
         error.stack,

@@ -64,11 +64,7 @@ export class AddressService {
    * @param lng 经度
    * @returns 地址分组列表
    */
-  async listStatusGroup(
-    siteId: string,
-    lat: string,
-    lng: string,
-  ): Promise<AddressGroupVO[]> {
+  async listStatusGroup(siteId: string, lat: string, lng: string): Promise<AddressGroupVO[]> {
     // 1. 获取用户ID (Java: String userId = userService.getUserId();)
     // ⚠️ 警告：getUserId() 必须在 Controller 层通过认证机制获取，Service 不应直接访问上下文。
     // 这里假设 UserService.getUserId() 能异步返回当前用户 ID
@@ -86,12 +82,12 @@ export class AddressService {
     const addressList: Address[] = await this.addressRepo.find({
       where: {
         // ⚠️ 动态用户ID。这里使用 userIdBigInt，而不是硬编码
-        userId: userIdBigInt,
+        userId: userIdBigInt.toString(), // 转换为字符串进行查询
         // 可以在这里添加 siteId, lat, lng 相关的筛选逻辑
       },
       // 默认按创建时间排序等
-      orderBy: {
-        createdDate: 'desc',
+      order: {
+        createdAt: 'DESC',
       },
     });
 
@@ -119,9 +115,7 @@ export class AddressService {
         const addressGroupVO = groupMap.get(groupType);
         // 转换并添加到分组列表
         if (addressGroupVO && addressEntity) {
-          addressGroupVO.addressList.push(
-            this.addressConverter.toAddressDetailVO(addressEntity),
-          );
+          addressGroupVO.addressList.push(this.addressConverter.toAddressDetailVO(addressEntity));
         }
       }
     }
@@ -136,10 +130,10 @@ export class AddressService {
    * @param id 地址ID (BigInt 存储，string 传入)
    * @returns 地址详情VO
    */
-  async getAddressById(id: string): Promise<AddressVO| null> {
+  async getAddressById(id: string): Promise<Address | null> {
     const addressEntity = await this.addressRepo.findOne({
       where: {
-        id: BigInt(id), // 转换为 BigInt 进行查询
+        id: id, // 转换为 BigInt 进行查询
       },
     });
     if (!addressEntity) {

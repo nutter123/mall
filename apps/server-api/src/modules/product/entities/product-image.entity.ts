@@ -5,7 +5,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 @Index('idx_spu_id', ['skuId'])
 export class ProductImage extends BaseEntity {
   @Column({ name: 'sku_id' })
-  skuId: number;
+  skuId: string;
 
   @Column({ name: 'img_url', length: 255 })
   imgUrl: string;

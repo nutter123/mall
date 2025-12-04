@@ -4,8 +4,6 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 @Entity('picture_ad_areas')
 @Index('idx_ad_id', ['adId'])
 export class PictureAdAreas extends BaseEntity {
-  @Column({ type: 'bigint', unsigned: true })
-  id: number;
 
   @Column({ name: 'ad_id', type: 'bigint', unsigned: true })
   adId: number;

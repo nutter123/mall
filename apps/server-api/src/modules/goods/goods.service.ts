@@ -46,7 +46,7 @@ export class GoodsService {
     });
 
     const productSkuDO: ProductSku = await this.productSkuRepo.save({
-      data: newGoodData,
+      ...newGoodData,
       // ⚠️ 注意：这里需要确保 goodDTO 的字段与 ProductSku 字段名完全匹配
     });
 
@@ -69,7 +69,7 @@ export class GoodsService {
     // 这里简化为：先查 SKU，再查 SPU
 
     const sku = await this.productSkuRepo.findOne({
-      where: { id: skuIdBigInt },
+      where: { id: skuIdString },
     });
     if (!sku || !sku.spuId) return null;
 
@@ -79,7 +79,7 @@ export class GoodsService {
 
     // 查询 SPU (GoodDetailInfoVO 的核心信息来自 SPU)
     const spu = await this.productSkuRepo.findOne({
-      where: { id: sku.spuId },
+      where: { id: String(sku.spuId) },
     });
     if (!spu) return null;
 
@@ -91,7 +91,7 @@ export class GoodsService {
     // 2. 查询商品图片 (Java: productImageMapper.getImageListBySpuId)
     const images: ProductImage[] = await this.imageRepo.find(
       {
-        where: { skuId: skuIdBigInt },
+        where: { skuId: skuIdString },
       },
     );
     // 假设 goodConverter.toImgUrlList(images) 可以转换图片列表

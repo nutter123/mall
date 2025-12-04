@@ -4,6 +4,7 @@ import {NavigationVO} from "./vo/Navigation.vo";
 import {BottomNavigationVO} from "./vo/BottomNavigation.vo";
 import {CategoryNavigationVO} from "./vo/CategoryNavigation.vo";
 import {HotNavigationVO} from "./vo/HotNavigation.vo";
+import { Navigation } from './entities/navigation.entity';
 @Injectable()
 export class NavigationConverter {
   toBottomNavigationVOList (navigations: Navigation[]): BottomNavigationVO[] {

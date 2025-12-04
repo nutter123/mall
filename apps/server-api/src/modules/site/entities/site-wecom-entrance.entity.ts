@@ -5,7 +5,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 @Unique('uk_site_id', ['siteId'])
 export class SiteWecomEntrance extends BaseEntity {
   @Column({ name: 'site_id' })
-  siteId: number;
+  siteId: string;
 
   @Column({ name: 'is_open', default: false, nullable: true })
   isOpen: boolean;

@@ -22,17 +22,18 @@ export class AuthService {
     const openid = `mock_openid_${code}`;
 
     // 查找或创建用户 (Upsert)
-    let user = await this.userRepository.findOne({ where: { openid } });
+    let user = await this.userRepository.findOne({ where: { openId: openid } });
     if (!user) {
-      user = this.userRepository.create({ openid });
+      user = this.userRepository.create({ openId: openid });
       await this.userRepository.save(user);
     }
 
     // 签发 JWT
-    const payload = { sub: user.id, openid: user.openid };
+    const payload = { sub: user.id, openId: user.openId };
     return {
       token: this.jwtService.sign(payload),
       userId: user.id,
+      openId: user.openId,
     };
   }
 

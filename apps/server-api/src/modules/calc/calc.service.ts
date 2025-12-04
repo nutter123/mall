@@ -49,7 +49,7 @@ export class CalcService {
 
     // 1. 查询站点信息 (Java: siteMapper.getSiteById)
     const siteEntity: Site | null = await this.siteRepo.findOne({
-      where: { id: BigInt(buyCalc.siteId) }, // 假设 siteId 也是 BigInt
+      where: { id: String(buyCalc.siteId) }, // 假设 siteId 也是 BigInt
     });
 
     if (!siteEntity) {
@@ -59,7 +59,7 @@ export class CalcService {
     // 2. 查询商品信息 (Java: productMapper.getSkuById & getSpuById)
     const skuEntity: ProductSku | null =
       await this.productSkuRepo.findOne({
-        where: { id: BigInt(goodsIdString) },
+        where: { id: goodsIdString },
       });
 
     if (!skuEntity) {
@@ -68,7 +68,7 @@ export class CalcService {
 
     const spuEntity: ProductSpu | null =
       await this.productSpuRepo.findOne({
-        where: { id: skuEntity.spuId }, // spuId 是 BigInt
+        where: { id: skuEntity.spuId.toString() }, // spuId 是 BigInt
       });
 
     if (!spuEntity) {

@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity'; // 引用你的基类
+import { User } from '@/modules/user/entities/user.entity';
 
 
 // 将这里的schema.prisma转换成typeorm实体类,字段严格按照schema.prisma中的定义
@@ -7,7 +8,7 @@ import { BaseEntity } from '../../../common/entities/base.entity'; // 引用你�
 export class Address extends BaseEntity {
   
   @Column({ name: 'user_id' }) // 映射数据库字段名
-  userId: number;
+  userId: string;
 
   @Column({ name: 'address_detail', length: 255 }) // 指定字段长度
   addressDetail: string;

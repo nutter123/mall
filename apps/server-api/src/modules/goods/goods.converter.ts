@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { GoodAttrVO } from './vo/GoodAttr.vo';
 import { plainToInstance } from 'class-transformer';
 import {GoodSpecVO} from "./vo/GoodSpec.vo";
+import { ProductAttribute } from '../product/entities/product-attribute.entity';
 
 @Injectable()
 export class GoodsConverter {
-  toAttrListVO(attributes: ProductAttributeModel[]): GoodAttrVO[] {
+  toAttrListVO(attributes: ProductAttribute[]): GoodAttrVO[] {
     // 1. 判空处理
     if (!attributes || attributes.length === 0) {
       return [];

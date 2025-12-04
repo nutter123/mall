@@ -76,7 +76,7 @@ export class JwtService {
     try {
       // 验证签名，并检查过期时间
       return jwt.verify(token, this.SECRET_KEY) as jwt.JwtPayload; // 返回解析后的 payload (claims)
-    } catch (error) {
+    } catch (error: any) {
       // 捕获各种错误，如 TokenExpiredError, JsonWebTokenError (签名无效)
       this.logger.error(`Token 解析失败或无效: ${error.message}`);
       return null;
