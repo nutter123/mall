@@ -4,7 +4,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 @Entity('order_delivery')
 @Index('idx_delivery_user_id', ['deliveryUserId'])
 export class OrderDelivery extends BaseEntity {
-  @Column({ name: 'order_id', primary: true, generated: 'increment' })
+  @Column({ name: 'order_id' })
   orderId: number;
 
   @Column({ name: 'delivery_user_id', nullable: true })
@@ -39,5 +39,4 @@ export class OrderDelivery extends BaseEntity {
 
   @Column({ name: 'delivery_remark', length: 255, nullable: true })
   deliveryRemark: string;
-
 }

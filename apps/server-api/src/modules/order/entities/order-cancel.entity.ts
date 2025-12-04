@@ -3,7 +3,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
 
 @Entity('order_cancel')
 export class OrderCancel extends BaseEntity {
-  @Column({ name: 'order_id', primary: true, generated: 'increment' })
+  @Column({ name: 'order_id' })
   orderId: number;
 
   @Column({ type: 'tinyint', nullable: true })
