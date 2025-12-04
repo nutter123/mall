@@ -3,4 +3,4 @@ docker-data
 miniprogram_npm/
 .umi/
 dist/
-.env
+apps/server-api/.env
