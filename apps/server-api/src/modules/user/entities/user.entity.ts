@@ -34,7 +34,7 @@ import { BaseEntity } from '../../../common/entities/base.entity';
   @@map("user")
 }
  */
-@Entity('users')
+@Entity('user')
 export class User extends BaseEntity {
 
   @Column({ type: 'varchar', length: 20, nullable: true })

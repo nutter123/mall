@@ -3,8 +3,11 @@ import { JwtService } from './jwt.service';
 import { JwtController } from './jwt.controller';
 import { ConfigModule } from '@nestjs/config';
 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Jwt } from './entities/jwt.entity';
+
 @Module({
-  imports: [ConfigModule],
+  imports: [ConfigModule, TypeOrmModule.forFeature([Jwt])],
   controllers: [JwtController],
   providers: [JwtService],
   exports: [JwtService],

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService } from '../jwt/jwt.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
@@ -31,7 +31,7 @@ export class AuthService {
     // 签发 JWT
     const payload = { sub: user.id, openId: user.openId };
     return {
-      token: this.jwtService.sign(payload),
+      token: this.jwtService.create(payload),
       userId: user.id,
       openId: user.openId,
     };
@@ -85,7 +85,7 @@ export class AuthService {
     // 3. 签发 Token
     const payload = { sub: admin.id, username: admin.username, role: 'admin' };
     return {
-      token: this.jwtService.sign(payload),
+      token: this.jwtService.create(payload),
       userInfo: {
         name: admin.nickname,
         avatar: admin.avatar,

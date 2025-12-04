@@ -20,6 +20,27 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { HttpCacheInterceptor } from './common/interceptors/cache.interceptor';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { Address } from './modules/address/entities/address.entity';
+import { AddressModule } from './modules/address/address.module';
+import { AdvertisingModule } from './modules/advertising/advertising.module';
+import { Article } from './modules/article/entities/article.entity';
+import { ArticleModule } from './modules/article/article.module';
+import { CalcModule } from './modules/calc/calc.module';
+import { ComboModule } from './modules/combo/combo.module';
+import { CouponModule } from './modules/coupon/coupon.module';
+import { EstimateModule } from './modules/estimate/estimate.module';
+import { GoodsModule } from './modules/goods/goods.module';
+import { HomeModule } from './modules/home/home.module';
+import { InfoModule } from './modules/info/info.module';
+import { JwtModule } from './modules/jwt/jwt.module';
+import { MerchantBModule } from './modules/merchant-b/merchant-b.module';
+import { NavigationModule } from './modules/navigation/navigation.module';
+import { PromotionModule } from './modules/promotion/promotion.module';
+import { RecommendModule } from './modules/recommend/recommend.module';
+import { SiteModule } from './modules/site/site.module';
+import { TokenModule } from './modules/token/token.module';
+import { VipModule } from './modules/vip/vip.module';
+import { WechatModule } from './modules/wechat/wechat.module';
 
 @Module({
   imports: [
@@ -83,16 +104,33 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         },
       ],
     }),
-
-    ProductModule,
-
-    UploadModule,
-
-    UserModule,
-
+    AddressModule,
+    AdvertisingModule,
+    ArticleModule,
     AuthModule,
-
+    CalcModule,
     CartModule,
+    ComboModule,
+    CouponModule,
+    EstimateModule,
+    GoodsModule,
+    HomeModule,
+    InfoModule,
+    // InventoryModule,
+    JwtModule,
+    MerchantBModule,
+    NavigationModule,
+    // OrderModule,
+    ProductModule,
+    PromotionModule,
+    RecommendModule,
+    SiteModule,
+    TokenModule,
+    UploadModule,
+    UserModule,
+    VipModule,
+    WechatModule,
+    // WecomModule,
   ],
   controllers: [AppController],
   providers: [

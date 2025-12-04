@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity'; // 引用你的基类
-import { User } from '@/modules/user/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 
 // 将这里的schema.prisma转换成typeorm实体类,字段严格按照schema.prisma中的定义

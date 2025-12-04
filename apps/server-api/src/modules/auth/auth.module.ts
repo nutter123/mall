@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule } from '../jwt/jwt.module';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,22 +12,11 @@ import { AppAuthController } from './controllers/app-auth.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]), // 引入 User 表操作权限
-    TypeOrmModule.forFeature([AdminUser]), // 引入 User 表操作权限
+    TypeOrmModule.forFeature([User, AdminUser]),
     PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.getOrThrow('JWT_SECRET'),
-        signOptions: { expiresIn: '7d' }, // Token 7天过期
-      }),
-    }),
+    JwtModule
   ],
-  controllers: [
-    AdminAuthController,
-    AppAuthController,
-  ],
+  controllers: [AdminAuthController, AppAuthController],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
