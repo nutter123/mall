@@ -6,8 +6,8 @@ import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../../common/decorators/user.decorator';
 import { Public } from '../../../common/decorators/public.decorator';
 
-@ApiTags('v2-app-mall - 小程序认证模块')
-@Controller('v2-app-mall') // 统一前缀
+@ApiTags('auth - 小程序认证模块')
+@Controller('auth') // 统一前缀
 export class AppAuthController {
   constructor(private readonly authService: AuthService) {}
 

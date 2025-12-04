@@ -4,8 +4,8 @@ import { AuthService } from '../auth.service';
 import { AdminLoginDto } from '../dto/admin-auth.dto';
 import { Public } from '../../../common/decorators/public.decorator';
 
-@ApiTags('test-api - 管理后台认证模块')
-@Controller('test-api/user') // 复刻公司后台路径
+@ApiTags('auth - 管理后台认证模块')
+@Controller('auth') // 复刻公司后台路径
 export class AdminAuthController {
   constructor(private readonly authService: AuthService) {}
 

@@ -2,8 +2,8 @@ import { Inject, Injectable, Logger, Scope } from '@nestjs/common';
 import { CreateCommonDto } from './dto/create-common.dto';
 import { UpdateCommonDto } from './dto/update-common.dto';
 import { REQUEST } from '@nestjs/core';
-import {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
-import {GetStopResVO} from "./vo/GetStopRes.vo";
+import { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
+import { GetStopResVO } from './vo/GetStopRes.vo';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CommonService {
@@ -48,14 +48,22 @@ export class CommonService {
     } else {
       getStopResVO.edition = mallName;
     }
-
+    /**
+      bindTime: null
+      edition: "mall_mp_wx"
+      linkValue: ""
+      mourningThemeOpen: false
+      openId: null
+      stop: false
+      unionId: null
+    */
     // 模拟其他业务逻辑赋值
-    getStopResVO.bindTime = '2025-08-14 10:25:47';
+    getStopResVO.bindTime = null;
     getStopResVO.linkValue = '';
     getStopResVO.mourningThemeOpen = false;
-    getStopResVO.openId = 'oSegQ5cMZ1lIiQjt1qIENCUJiUWA';
+    getStopResVO.openId = null;
     getStopResVO.stop = false;
-    getStopResVO.unionId = 'oQp4Z0-ARA5Tu-d-6eBm_2M2iIjI';
+    getStopResVO.unionId = null;
 
     return getStopResVO;
   }
@@ -82,10 +90,7 @@ export class CommonService {
   /**
    * 判断是否为APP
    */
-  private isApp(
-    clientType: string | undefined,
-    appVersion: string | undefined,
-  ): boolean {
+  private isApp(clientType: string | undefined, appVersion: string | undefined): boolean {
     // 在 NestJS 中，clientType 和 appVersion 来自 Headers，通过 @CommonHeaders 传入
     if ('app'.toLowerCase() === clientType?.toLowerCase() || appVersion) {
       return true;

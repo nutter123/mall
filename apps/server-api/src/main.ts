@@ -15,6 +15,12 @@ async function bootstrap() {
   // 替换默认 Logger
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
+  app.setGlobalPrefix('v2-app-mall', {
+    exclude: [
+      'admin/(.*)',     // 如果你有 admin 开头的也排除
+    ],
+  });
+
   // 配置全局跨域
   app.enableCors();
 

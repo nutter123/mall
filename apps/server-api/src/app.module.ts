@@ -41,6 +41,7 @@ import { SiteModule } from './modules/site/site.module';
 import { TokenModule } from './modules/token/token.module';
 import { VipModule } from './modules/vip/vip.module';
 import { WechatModule } from './modules/wechat/wechat.module';
+import { CommonModule } from './modules/common/common.module';
 
 @Module({
   imports: [
@@ -111,6 +112,7 @@ import { WechatModule } from './modules/wechat/wechat.module';
     CalcModule,
     CartModule,
     ComboModule,
+    CommonModule,
     CouponModule,
     EstimateModule,
     GoodsModule,

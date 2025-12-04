@@ -10,9 +10,11 @@ import type {CommonHeadersDto} from "../../common/decorators/common-headers.deco
 import {GetByWechatMpReqVO} from "../token/vo/GetByWechatMpReq.vo";
 import {GetStopResVO} from "./vo/GetStopRes.vo";
 import {SubscribeMessageReqVO} from "./vo/SubscribeMessageReq.vo";
+import { Public } from '@/common/decorators/public.decorator';
 
 @ApiTags('通用管理') // 对应 @Tag(name = "通用管理")
 @Controller('common')
+@Public()
 export class CommonController {
   constructor(private readonly commonService: CommonService) {}
 

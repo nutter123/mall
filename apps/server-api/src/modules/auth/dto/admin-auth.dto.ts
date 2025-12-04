@@ -3,7 +3,6 @@ import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
 
 /**
  * 后台登录请求参数
- * Path: /test-api/user/login
  */
 export class AdminLoginDto {
   @ApiProperty({ description: '用户名', example: 'xiaochengxu' })
