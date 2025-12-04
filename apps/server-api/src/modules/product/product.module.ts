@@ -24,6 +24,7 @@ import { Brand } from './entities/brand.entity';
   imports: [
     TypeOrmModule.forFeature([
       Product,
+      Sku,
       ProductSku,
       ProductSpu,
       ProductSpecKey,

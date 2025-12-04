@@ -24,6 +24,6 @@ export class Product extends BaseEntity {
   // 建立与 SKU 的一对多关系
   // cascade: true 表示保存 Product 时，如果有 SKU 数据，也会自动保存 SKU
   @OneToMany(() => Sku, (sku) => sku.product, { cascade: true })
-  skus: Sku[];
+  sku: Sku[];
 
 }

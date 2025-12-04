@@ -33,5 +33,5 @@ export class CreateProductDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateSkuDto)
-  skus: CreateSkuDto[];
+  sku: CreateSkuDto;
 }

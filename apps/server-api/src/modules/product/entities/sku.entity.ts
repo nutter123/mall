@@ -25,7 +25,7 @@ export class Sku extends BaseEntity {
   attributes: Record<string, string>;
 
   // 建立与 Product 的多对一关系
-  @ManyToOne(() => Product, (product) => product.skus, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Product, (product) => product.sku, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'productId' }) // 数据库里会多一列 productId
   product: Product;
 }
