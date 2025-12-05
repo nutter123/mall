@@ -8,7 +8,7 @@ export async function findAllAdminUser(
   params: API.findAllAdminUserParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.CommonRes & { data?: API.CommonPageRes & { records?: Record<string, any>[] } }>('/test-api/user', {
+  return request<API.CommonRes & { data?: API.CommonPageRes & { records?: API.AdminUserVo[] } }>('/test-api/user', {
     method: 'GET',
     params: {
       ...params,

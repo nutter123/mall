@@ -10,7 +10,7 @@ import type { FC } from 'react';
 import { createAdminUser } from '../../../../services/mall/adminUser';
 
 interface CreateFormProps {
-	reload?: ActionType['reload'];
+	reload?: () => void;
 }
 
 const CreateForm: FC<CreateFormProps> = (props) => {

@@ -59,7 +59,7 @@ export class AdminUserController {
 
   @Get('/')
   @ApiOperation({ summary: '批量查询用户', operationId: 'findAllAdminUser' })
-  @ApiResWrapper(CommonPageRes<AdminUserVo>)
+  @ApiResWrapper(AdminUserVo, true)
   async findAll(
     @Query(new ValidationPipe({ transform: true })) reqVO: QueryAdminUserDto,
   ) {

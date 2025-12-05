@@ -9,23 +9,44 @@ import UpdateForm from './components/UpdateForm';
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType | null>(null);
 
-  const [currentRow, setCurrentRow] = useState<API.AdminUserVo | null>();
+  // 当前编辑的行数据
+  const [currentRow, setCurrentRow] = useState<API.AdminUserVo | undefined>();
+  // 当前选中的行
   const [selectedRowsState, setSelectedRows] = useState<API.AdminUserVo[]>([]);
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { run: delRun, loading } = useRequest(deleteManyAdminUser, {
+  /**
+   * 删除请求 hooks
+   */
+  const { run: delRun, loading: deleteLoading } = useRequest(deleteManyAdminUser, {
     manual: true,
     onSuccess: () => {
+      // 1. 清空选中项
       setSelectedRows([]);
-      actionRef.current?.reloadAndRest?.();
-
-      messageApi.success('删除成功，即将刷新');
+      // 2. 刷新表格
+      actionRef.current?.reload();
+      messageApi.success('删除成功');
     },
-    onError: () => {
-      messageApi.error('删除失败，请重试');
+    onError: (error) => {
+      messageApi.error('删除失败: ' + error.message);
     },
   });
+
+  /**
+   * 处理删除逻辑 (支持批量和单删)
+   */
+  const handleRemove = useCallback(
+    async (selectedRows: API.AdminUserVo[]) => {
+      if (!selectedRows?.length) {
+        messageApi.warning('请选择需要删除的项');
+        return;
+      }
+
+      await delRun(selectedRows.map((row) => row.id));
+    },
+    [delRun, messageApi],
+  );
 
   const columns: ProColumns<API.AdminUserVo>[] = [
     {
@@ -54,9 +75,9 @@ const TableList: React.FC = () => {
       hideInForm: true,
       search: false,
     },
-    // 时间范围搜索 (虚拟字段)
+    // 时间范围搜索 (虚拟字段，通过 transform 转换参数)
     {
-      title: '创建时间',
+      title: '创建时间范围',
       dataIndex: 'createdAtRange',
       valueType: 'dateRange',
       hideInTable: true,
@@ -86,27 +107,6 @@ const TableList: React.FC = () => {
     },
   ];
 
-  /**
-   *  Delete node
-   * @zh-CN 删除节点
-   *
-   * @param selectedRows
-   */
-  const handleRemove = useCallback(
-    async (selectedRows: API.AdminUserVo[]) => {
-      if (!selectedRows?.length) {
-        messageApi.warning('请选择删除项');
-
-        return;
-      }
-
-      await delRun({
-        ids: selectedRows.map((row) => row.id),
-      });
-    },
-    [delRun, messageApi.warning],
-  );
-
   return (
     <PageContainer>
       {contextHolder}
@@ -117,23 +117,20 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [<CreateForm key="create" reload={actionRef.current?.reload} />]}
+        // 工具栏渲染：创建按钮
+        toolBarRender={() => [<CreateForm key="create" reload={() => actionRef.current?.reload()} />]}
         request={async (params, sort, filter) => {
-          // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
-          // 如果需要转化参数可以在这里进行修改
-          const { data } = await findAllAdminUser({
+          // 处理查询请求
+          const res = await findAllAdminUser({
             ...params,
-            pageSize: params.pageSize || 20,
-            current: params.current || 1,
+            current: params.current,
+            pageSize: params.pageSize,
           });
-          console.log(data);
+
           return {
-            data: data?.records || [],
-            // success 请返回 true，
-            // 不然 table 会停止解析数据，即使有数据
-            success: true,
-            // 不传会使用 data 的长度，如果是分页一定要传
-            total: data?.total || 0,
+            data: res.data?.records || [],
+            success: true, // 必须返回 true
+            total: res.data?.total || 0,
           };
         }}
         columns={columns}
@@ -143,10 +140,13 @@ const TableList: React.FC = () => {
           },
         }}
       />
+
+      {/* 底部批量操作工具栏 */}
       {selectedRowsState?.length > 0 && (
         <FooterToolbar>
           <Button
-            loading={loading}
+            danger // 加上 danger 样式表示危险操作
+            loading={deleteLoading}
             onClick={() => {
               handleRemove(selectedRowsState);
             }}
@@ -156,13 +156,24 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
 
+      {/* 更新表单弹窗 
+         注意：这里假设 UpdateForm 是一个 ModalForm 或者 DrawerForm
+      */}
       {currentRow && (
         <UpdateForm
           key="update"
+          // open / visible 属性通常由 UpdateForm 内部控制，或者这里透传 open={!!currentRow}
+          // 将当前行数据传递进去
           values={currentRow}
+          // 成功回调：重置 currentRow 并刷新表格
           onOk={() => {
-            setCurrentRow(null);
+            setCurrentRow(undefined);
             actionRef.current?.reload();
+            messageApi.success('修改成功');
+          }}
+          // 重要：取消回调，必须清空 currentRow，否则弹窗关不掉
+          onCancel={() => {
+            setCurrentRow(undefined);
           }}
         />
       )}
