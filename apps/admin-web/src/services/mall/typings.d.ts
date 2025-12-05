@@ -8,17 +8,28 @@ declare namespace API {
     lng: string;
   };
 
-  type AdminUser = {
-    username: string;
-    password: string;
-    phone: string;
-    role: string;
-    nickname: string;
-    avatar: string;
+  type AddressGroupVO = {
+    /** 组名 */
+    groupName: string;
+    /** 地址列表 */
+    addressList: string[];
+  };
+
+  type AdminUserVo = {
+    /** id */
     id: string;
-    createdAt?: string;
-    updatedAt?: string;
-    deletedAt?: string;
+    /** 创建时间 */
+    createdAt: string;
+    /** 管理员用户名 */
+    username: string;
+    /** 手机号 */
+    phone: string;
+    /** 角色 */
+    role: string;
+    /** 昵称 */
+    nickname: string;
+    /** 头像 */
+    avatar: string;
   };
 
   type AdvertisingControllerGetListParams = {
@@ -26,6 +37,104 @@ declare namespace API {
     position: string;
     /** 站点 */
     siteId: number;
+  };
+
+  type AllInfoVO = {
+    /** 活动描述 */
+    activityDescribe: string;
+    /** 卡号 */
+    cardNum: string;
+    /** 所有优惠券数量 */
+    couponAllNum: number;
+    /** 自定义描述 */
+    customDescribe: string;
+    /** 购卡福利标签 */
+    giftCardPackageLabel: string;
+    /** 超级用户信息 */
+    godUserInfoVo: GodUserInfoVO;
+    /** 是否有卡 */
+    haveCard: boolean;
+    /** 是否有兑换活动 */
+    haveExchange: boolean;
+    /** 是否有团购活动 */
+    haveTeamBuy: boolean;
+    /** 总积分 */
+    integralTotal: number;
+    /** 无效数量 */
+    invalid: number;
+    /** 无效文本提示 */
+    invalidText: string;
+    /** 月节省金额 */
+    monthSaveMoney: number;
+    /** 未激活数量 */
+    notActiveCount: number;
+    /** 个人描述 */
+    personalDescribe: string;
+    /** 精炼物品地址 */
+    refineThingAddr: boolean;
+    /** 权益列表 */
+    rightsList: RightsBaseVO[];
+    /** 权益红点兑换状态 */
+    rightsRedExchange: boolean;
+    /** 权益红点介绍 */
+    rightsRedIntroduction: string;
+    /** 权益总数 */
+    rightsTotal: number;
+    /** Svip商品列表 */
+    svipGoods: SvipGoodVO[];
+    /** 团购文本 */
+    teamBuyText: string;
+    /** 物品展示开关 */
+    thingShow: boolean;
+    /** 总余额 */
+    totalBalance: number;
+    /** 企业微信开启状态 */
+    weComOpen: boolean;
+    /** 即将过期优惠券数量 */
+    willExpireCouponNum: number;
+    /** 即将过期积分 */
+    willExpireIntegral: number;
+  };
+
+  type AllResVO = {
+    /** 推荐专区顶部广告 */
+    advertisingTop: string[];
+    /** 首页轮播广告 */
+    advertisingBanner: string[];
+    /** 首页悬浮广告 */
+    advertisingSuspended: string[];
+    /** 背景图 */
+    background: BackgroundVO;
+    /** 底部导航 */
+    bottomNavigation: string[];
+    /** 类目导航 */
+    categoryNavigation: string[];
+    /** 酒神周期结束时间 */
+    godEnd: string;
+    /** 酒神周期开始时间 */
+    godStart: string;
+    /** 图文导航 */
+    graphicNavigation: string[];
+    /** 搜索框底部热词 */
+    hotWordBottom: string[];
+    /** 搜索框热词 */
+    hotWordSearch: string[];
+    /** 商城置灰 */
+    mourningThemeOpen: boolean;
+    /** 支付设置 */
+    payConfig: PayConfigVO;
+    /** 图片热区 */
+    picture: PictureAdsVO;
+    /** 推荐专区 */
+    recommendZone: string[];
+    /** 服务标准 */
+    serviceStandards: string[];
+    /** 分享Vo */
+    share: ShareVO;
+    /** 站点详情vo */
+    siteDetails: SiteDetailsVO;
+    /** 站点是否覆盖超级会员 */
+    svipSite: boolean;
   };
 
   type Article = {
@@ -43,6 +152,13 @@ declare namespace API {
   type ArticleControllerGetByTypeParams = {
     type: string;
   };
+
+  type BackgroundVO = {
+    /** 背景图 */
+    pic: string;
+  };
+
+  type Boolean = {};
 
   type BuyCalcDTO = {
     /** 是否接受转让 */
@@ -283,6 +399,13 @@ declare namespace API {
     promotionId: number;
   };
 
+  type Cart = {
+    id: string;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string;
+  };
+
   type CartControllerGetCartInfoParams = {
     /** 站点ID */
     siteId: string;
@@ -295,6 +418,44 @@ declare namespace API {
     jsCode: string;
     /** 点击ID */
     clickId?: string;
+  };
+
+  type CommonPageRes = {
+    /** 总数 */
+    total: number;
+    /** 每页数 */
+    size: number;
+    /** 当前页 */
+    current: number;
+    /** 总页数 */
+    totalPages: number;
+    /** 当前页偏移量 */
+    offset: number;
+    /** 是否空 */
+    empty: boolean;
+    /** 是否首页 */
+    first: boolean;
+    /** 是否尾页 */
+    last: boolean;
+    /** 内容 */
+    records: any[][];
+  };
+
+  type CommonRes = {
+    /** 响应状态码 (业务状态) */
+    status: number;
+    /** 响应消息 */
+    message: string;
+    /** 响应提示 (用户友好) */
+    prompt: string;
+    /** 响应数据 */
+    data?: Record<string, any>;
+    /** 错误原因（可选） */
+    error?: string;
+    /** 错误跟踪信息（可选） */
+    trace?: string;
+    /** 错误来源系统（可选） */
+    system?: string;
   };
 
   type CouponControllerDrawCouponOneParams = {
@@ -367,6 +528,19 @@ declare namespace API {
     id: string;
   };
 
+  type findAllAdminUserParams = {
+    /** 当前页码 */
+    current?: number;
+    /** 每页条数 */
+    pageSize?: number;
+    /** 用户名/昵称模糊搜索 */
+    username?: string;
+    /** 开始时间 */
+    startTime?: string;
+    /** 结束时间 */
+    endTime?: string;
+  };
+
   type GetByWechatMpReqVO = {
     /** 应用ID */
     appid: string;
@@ -394,6 +568,88 @@ declare namespace API {
     /** 限制订单金额至少 */
     limitAmountMin: number;
   };
+
+  type GetListResVO = {
+    /** 图片 */
+    pic: string;
+    /** id */
+    id: string;
+    /** 链接类型（dict_type) */
+    linkType: string;
+    /** 链接值 */
+    linkValue: string;
+    /** 名称 */
+    name: string;
+    /** 位置 */
+    position: string;
+    /** 排序 */
+    sort: number;
+    /** 是否展示广告标签 */
+    tag: boolean;
+  };
+
+  type GetNewUserCouponResVO = {
+    /** 站点新人券信息 */
+    couponNewSiteUserVo: string[];
+    /** 新人券信息 */
+    couponNewUserVo: string[];
+    /** 是否未领新人券 */
+    gotNewCoupon: boolean;
+    /** 是否未领站点券 */
+    gotNewSiteCoupon: boolean;
+    /** 是否是站点新用户 */
+    newSiteUser: boolean;
+    /** 是否是新用户 */
+    newUser: boolean;
+    /** 新人福利(新人弹窗为样式一时返回)新人福利新人福利 */
+    newWelfareVo: NewWelfareVO;
+    /** 新人弹窗样式样式（dict_type: content_new_popup_style）string */
+    style: string;
+  };
+
+  type GetPersonalityGridResVO = {
+    /** 个性化方格轮播图 */
+    advertisingVoList: string[];
+    /** 个性化方格模式 */
+    gridMode: string;
+    /** id */
+    id: number;
+    /** 方格位置1 */
+    personalityPosition1: string;
+    /** 方格位置2 */
+    personalityPosition2: string;
+    /** 方格位置3 */
+    personalityPosition3: string;
+    /** 方格位置4 */
+    personalityPosition4: string;
+    /** 标题 */
+    title: string;
+  };
+
+  type GetStopResVO = {
+    /** 绑定微信时间 */
+    bindTime: string;
+    /** 客户端 */
+    edition: string;
+    /** 链接值 */
+    linkValue: string;
+    /** 商城置灰 */
+    mourningThemeOpen: boolean;
+    /** 是否停业 */
+    stop: boolean;
+    /** 微信openId */
+    openId: string;
+    /** 微信unionId */
+    unionId: string;
+  };
+
+  type GodUserInfoVO = {};
+
+  type GoodBaseInfoVO = {};
+
+  type GoodBuyInfoVO = {};
+
+  type GoodDetailInfoVO = {};
 
   type GoodDTO = {
     /** 商品背景色 */
@@ -541,6 +797,15 @@ declare namespace API {
     siteId: number;
   };
 
+  type HomeAllConfigVO = {
+    /** 站点详情 */
+    siteDetails: SiteDetailsVO;
+    /** 企微入口支持表 */
+    weComEntrance: SiteWecomEntranceVO;
+    /** 站点是否开通超级会员 */
+    svipSite: boolean;
+  };
+
   type HomeControllerAllParams = {
     /** 站点ID */
     siteId: number;
@@ -575,6 +840,23 @@ declare namespace API {
     id: number;
   };
 
+  type LevelRelationVO = {
+    /** 是否赠送优惠券 */
+    giftCoupon: boolean;
+    /** 是否赠送积分 */
+    giftIntegral: boolean;
+    /** 是否赠送SVIP */
+    giftSvip: boolean;
+    /** 积分数量 */
+    integralQuantity: number;
+    /** 等级名称 */
+    levelName: string;
+    /** 关系类型 */
+    relationType: string;
+    /** SVIP结束时间 */
+    svipEnd: string;
+  };
+
   type LoginAdminDto = {
     /** 用户名 */
     username: string;
@@ -594,7 +876,46 @@ declare namespace API {
     id: string;
   };
 
+  type NewWelfareVO = {
+    /** 图标 */
+    icon: string;
+    /** 新人券 */
+    newUserCoupon: string[];
+    /** 新人专区 */
+    newZoneVo: NewZoneVO;
+    /** 背景图 */
+    pic: string;
+    /** 福利描述 */
+    totalAmount: string;
+  };
+
+  type NewZoneVO = {
+    /** 名称 */
+    name: string;
+    /** 背景图 */
+    pic: string;
+    /** 显示数量（小于0为显示全部） */
+    showNum: number;
+    /** 链接类型（dict_type: content_link_type） */
+    linkType: string;
+    /** 链接值 */
+    linkValue: string;
+    /** 新人专区商品 */
+    goodsList: string[];
+  };
+
+  type Number = {};
+
   type PayConfigVO = {};
+
+  type PictureAdsVO = {
+    /** 图片 */
+    pic: string;
+    /** 名称 */
+    name: string;
+    /** 图片区域 */
+    pictureAreaList: string[];
+  };
 
   type Product = {
     title: string;
@@ -613,11 +934,146 @@ declare namespace API {
     id: string;
   };
 
+  type RecommendZoneGoodsAndComboResVO = {
+    /** 套餐列表 */
+    comboList: string[];
+    /** 商品基础活动信息(活动只包含名称) */
+    goodsList: string[];
+    /** 类型(goods-商品,combo-套餐) */
+    recommendType: string;
+    /** 排序 */
+    sort: number;
+  };
+
+  type RightsBaseVO = {};
+
+  type SeckillDiscountZoneResVO = {
+    /** 最近结束时间 */
+    detailEnd: string;
+    /** 最近开始时间 */
+    detailStart: string;
+    /** 专区显示区域(dict_type:content_zone_display_region) */
+    displayRegion: string;
+    /** 商品列表 */
+    goodsList: string[];
+    /** 链接类型（dict_type: content_link_type） */
+    linkType: string;
+    /** 链接值 */
+    linkValue: string;
+    /** 名称 */
+    name: string;
+    /** 背景图 */
+    pic: string;
+  };
+
+  type ShareVO = {
+    /** 分享标题 */
+    shareTitle: string;
+    /** 分享图片 */
+    sharePicture: string;
+  };
+
   type SiteControllerGetSiteByLocationParams = {
     /** 经度 */
     lng: number;
     /** 纬度 */
     lat: number;
+  };
+
+  type SiteDetailsVO = {};
+
+  type SiteVO = {
+    /** 站点ID */
+    id: string;
+    /** 站点名称 */
+    siteName: string;
+    /** 开放状态 */
+    openStatus: boolean;
+    /** 开放状态新 */
+    openStatusNew: number;
+    /** 预计开放时间 */
+    expectedOpenTime: string;
+    /** 版本 */
+    version: number;
+    /** 城市 */
+    city: string;
+    /** 首字母拼音 */
+    firstPinYin: string;
+    /** 拼音 */
+    pinYin: string;
+    /** 是否营业 */
+    isBusiness: boolean;
+    /** 是否转运 */
+    isTransfer: boolean;
+    /** 区域 */
+    areas: boolean;
+    /** 店铺ID */
+    shopId: string;
+  };
+
+  type SiteWecomEntranceVO = {
+    /** ID */
+    id: string;
+    /** 创建日期 */
+    createdDate: string;
+    /** 创建人ID */
+    createdBy: string;
+    /** 创建人姓名 */
+    createdName: string;
+    /** 最后修改日期 */
+    lastModifiedDate: string;
+    /** 最后修改人ID */
+    lastModifiedBy: string;
+    /** 最后修改人姓名 */
+    lastModifiedName: string;
+    /** 站点ID */
+    siteId: string;
+    /** 是否开启 */
+    open: boolean;
+    /** 显示区域 */
+    showArea: string;
+    /** 二维码 */
+    qrCode: string;
+    /** 背景图片 */
+    proBg: string;
+    /** 规则 */
+    rule: string;
+    /** 分享标题 */
+    shareTitle: string;
+    /** 分享图片 */
+    sharePic: string;
+    /** 备注 */
+    remark: string;
+    /** 小程序链接 */
+    miniUrl: string;
+    /** 微信短链接 */
+    weChatShortUrl: string;
+    /** HTML链接 */
+    htmlUrl: string;
+    /** 活动描述 */
+    activityDescribe: string;
+    /** 自定义描述 */
+    customDescribe: string;
+    /** 个人描述 */
+    personalDescribe: string;
+    /** 商品详情描述 */
+    goodsDetailDescribe: string;
+    /** 商品详情自定义描述 */
+    goodsDetailCustomDescribe: string;
+    /** 商品详情折扣描述 */
+    goodsDetailDiscountDescribe: string;
+    /** 商品详情折扣自定义描述 */
+    goodsDetailDiscountCustomDescribe: string;
+    /** 数据权限 */
+    dataPermission: Record<string, any>;
+    /** 创建日期开始 */
+    createdDateStart: Record<string, any>;
+    /** 创建日期结束 */
+    createdDateEnd: Record<string, any>;
+    /** 最后修改日期开始 */
+    lastModifiedDateStart: Record<string, any>;
+    /** 最后修改日期结束 */
+    lastModifiedDateEnd: Record<string, any>;
   };
 
   type Sku = {
@@ -630,6 +1086,8 @@ declare namespace API {
     updatedAt?: string;
     deletedAt?: string;
   };
+
+  type String = {};
 
   type SubscribeMessageReqVO = {
     /** 订阅类型 */
@@ -644,6 +1102,8 @@ declare namespace API {
     /** 商品ID */
     id: number;
   };
+
+  type SvipGoodVO = {};
 
   type TokenVO = {
     /** 联合ID */
@@ -684,4 +1144,54 @@ declare namespace API {
   };
 
   type UpdateMemberDto = {};
+
+  type User = {
+    birthday?: string;
+    experience?: number;
+    gender?: string;
+    hasPassword?: boolean;
+    password?: string;
+    hasPayPassword?: boolean;
+    payPassword?: string;
+    icon?: string;
+    integral?: number;
+    isSvip?: boolean;
+    levelId?: string;
+    levelName?: string;
+    nickName?: string;
+    newUser?: boolean;
+    oftenCity?: string;
+    payPasswordDisplay?: boolean;
+    picture?: string;
+    retailer?: boolean;
+    tianCai?: boolean;
+    totalAmount?: number;
+    userName?: string;
+    phone?: string;
+    openId?: string;
+    godUser?: boolean;
+    id: string;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string;
+  };
+
+  type UserCouponInfoVO = {};
+
+  type VipDayPopupResVO = {
+    /** 商品 */
+    goodsName: string;
+    /** 商品图 */
+    goodsPic: string;
+    /** 时间 */
+    time: string;
+    /** 倍数 */
+    times: number;
+    /** 今天是否会员日 */
+    today: boolean;
+    /** 权益身份 */
+    type: string;
+  };
+
+  type VipVO = {};
 }

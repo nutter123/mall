@@ -4,12 +4,14 @@ import { BusinessException } from '../../common/exceptions/business.exception';
 import { UserConverter } from './user.converter';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { LoginAdminDto } from './dto/login.dto';
 import { CreateJwtDto } from '../jwt/dto/create-jwt.dto';
 import { AdminUser } from './entities/admin-user.entity';
 import { compare, genSalt, hash } from 'bcryptjs';
-import { CreateAdminUserDto, UpdateAdminUserDto } from './dto/admin-user.dto';
+import { CreateAdminUserDto, QueryAdminUserDto, UpdateAdminUserDto } from './dto/admin-user.dto';
+import { AdminUserVo } from './vo/admin-user.vo';
+import { CommonPageRes } from '@/common/dto/common-page.dto';
 
 @Injectable()
 export class UserService {
@@ -17,6 +19,7 @@ export class UserService {
     private readonly jwtService: JwtService, // 替代 SecurityContextHolder
     @InjectRepository(AdminUser)
     private adminRepository: Repository<AdminUser>,
+    private userConverter: UserConverter,
   ) {}
   // 增删改查
   // === 创建用户 ===
@@ -37,33 +40,70 @@ export class UserService {
     const admin = this.adminRepository.create({
       username,
       password: hashedPassword,
-      nickname: '管理员',
-      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
     });
 
-    return this.adminRepository.save(admin);
+    const savedAdmin = await this.adminRepository.save(admin);
+    savedAdmin.password = null;
+    return savedAdmin;
   }
 
   // === 删除用户 ===
-  async delete(id: string) {
-    return this.adminRepository.delete(id);
+  async delete(id: string): Promise<true> {
+    await this.adminRepository.delete(id);
+    return true;
   }
   // === 批量删除用户 ===
-  async deleteMany(ids: string[]) {
-    return this.adminRepository.delete(ids);
+  async deleteMany(ids: string[]): Promise<true> {
+    await this.adminRepository.delete(ids);
+    return true;
   }
   // === 更新用户 ===
-  async update(id: string, dto: UpdateAdminUserDto) {
-    return this.adminRepository.update(id, dto);
+  async update(id: string, dto: UpdateAdminUserDto): Promise<true> {
+    await this.adminRepository.update(id, dto);
+    return true;
   }
 
   // === 查询用户 ===
-  async findOne(id: string) {
-    return this.adminRepository.findOne({ where: { id } });
+  async findOne(id: string): Promise<AdminUserVo> {
+    return this.userConverter.toAdminUserVo(await this.adminRepository.findOne({ where: { id } }));
   }
-  // === 批量查询用户 ===
-  async findAll() {
-    return this.adminRepository.find();
+  // === 分页查询用户 ===
+  async findPage(reqVO: QueryAdminUserDto): Promise<CommonPageRes<AdminUserVo>> {
+    const current = Number(reqVO.current) || 1;
+    const pageSize = Number(reqVO.pageSize) || 20;
+
+    const { username } = reqVO;
+    const where: any = {};
+
+    //模糊搜索
+    if (username) {
+      where.username = Like(`%${username}%`);
+    }
+
+    const skip = (current - 1) * pageSize;
+    const take = pageSize;
+
+    const list = await this.adminRepository.find({
+      skip,
+      take,
+      where,
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    const total = await this.adminRepository.count();
+
+    return {
+      records: list.map((item) => this.userConverter.toAdminUserVo(item)),
+      total,
+      size: pageSize,
+      current,
+      totalPages: Math.ceil(total / pageSize),
+      offset: (current - 1) * pageSize,
+      empty: total === 0,
+      first: current === 1,
+      last: current >= Math.ceil(total / pageSize),
+    };
   }
 
   // === 管理员登录 ===
@@ -91,5 +131,13 @@ export class UserService {
       userId: admin.id.toString(),
     };
     return this.jwtService.generateToken(jwtDto);
+  }
+
+  // === 查询当前登录用户信息 ===
+  async getProfile(userId: string) {
+    return this.adminRepository.findOne({
+      where: { id: userId },
+      select: ['id', 'username', 'avatar', 'nickname'],
+    });
   }
 }

@@ -17,7 +17,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('v2-app-mall', {
     exclude: [
-      'test-api/(.*)',     // 如果你有 admin 开头的也排除
+      'test-api/(.*)', // 如果你有 admin 开头的也排除
     ],
   });
 
@@ -43,7 +43,18 @@ async function bootstrap() {
     .setTitle('Mall 全栈商城 API')
     .setDescription('基于 NestJS + React + 小程序的微商城接口文档')
     .setVersion('1.0')
-    .addBearerAuth() // 开启 Bearer Token 鉴权功能
+    .addApiKey(
+      {
+        type: 'apiKey', // 指定安全方案类型为 API Key
+        name: 'jxe-token', // 指定 HTTP Header 的名称
+        in: 'header', // 指定位置为头部
+        description: '用于调试的自定义 Token',
+      },
+      'jxe-token-auth', // 安全定义名称，在代码中引用
+    )
+    .addSecurityRequirements({
+      'jxe-token-auth': [], // Key为安全定义名称，值[]为空的Scopes
+    })
     .build();
 
   // 只在开发环境或测试环境开启文档

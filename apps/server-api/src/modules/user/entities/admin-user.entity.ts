@@ -8,15 +8,15 @@ export class AdminUser extends BaseEntity {
   @Column({ select: false, comment: '加密后的密码' }) // select: false 查用户信息时不默认返回密码，安全！
   password: string;
 
-  @Column({ unique: true, comment: '手机号' })
-  phone: string;
+  @Column({ unique: true, comment: '手机号', nullable: true })
+  phone?: string;
 
-  @Column({ comment: '角色' })
-  role: string;
+  @Column({ comment: '角色', nullable: true })
+  role?: string;
 
-  @Column({ nullable: true, comment: '昵称' })
-  nickname: string;
+  @Column({ comment: '昵称', nullable: true })
+  nickname?: string;
 
-  @Column({ nullable: true, comment: '头像' })
-  avatar: string;
+  @Column({ comment: '头像', nullable: true })
+  avatar?: string;
 }

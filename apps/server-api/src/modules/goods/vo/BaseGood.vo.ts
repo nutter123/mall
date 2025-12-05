@@ -1,7 +1,7 @@
-import { BaseEntityVO } from '../../../common/dto/BaseEntity.vo';
+import { BaseVO } from '../../../common/dto/base-vo';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BaseGoodVO extends BaseEntityVO {
+export class BaseGoodVO extends BaseVO {
   @ApiProperty({ description: '销售名称' })
   saleName: string;
 

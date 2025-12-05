@@ -1,4 +1,4 @@
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 
 /**
  * 通用响应结果 (Common Response Wrapper)
@@ -16,21 +16,20 @@ export class CommonRes<T> {
     @ApiProperty({description: '响应提示 (用户友好)', example: '成功'})
     prompt: string;
 
-    // 响应数据。注意：Swagger 无法自动推断泛型 T 的类型，
-    // 通常需要在 Controller 中使用 @ApiExtraModels 和 @ApiResponse 来显式说明 T 的类型。
-    @ApiProperty({description: '响应数据'})
+    // 响应数据。使用 ApiPropertyOptional 以便能与 allOf 结合使用
+    @ApiPropertyOptional({description: '响应数据'})
     data: T;
 
     // 错误原因
-    @ApiProperty({description: '错误原因（可选）', example: null})
+    @ApiPropertyOptional({description: '错误原因（可选）', example: null})
     error: string | null;
 
     // 错误跟踪
-    @ApiProperty({description: '错误跟踪信息（可选）', example: null})
+    @ApiPropertyOptional({description: '错误跟踪信息（可选）', example: null})
     trace: string | null;
 
     // 错误方
-    @ApiProperty({description: '错误来源系统（可选）', example: 'NestJS-Mall'})
+    @ApiPropertyOptional({description: '错误来源系统（可选）', example: 'NestJS-Mall'})
     system: string | null;
 
     /**

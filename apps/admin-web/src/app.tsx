@@ -8,7 +8,7 @@ import { history, Link } from '@umijs/max';
 import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
 import defaultSettings from '../config/defaultSettings';
 import '@ant-design/v5-patch-for-react-19';
-import { queryCurrentUser } from './services';
+import { getCurrentAdminUserProfile } from './services/mall/adminUser';
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
 
@@ -30,13 +30,15 @@ export async function getInitialState(): Promise<InitialState> {
     try {
       // 这里的 request 会走下面的 request配置，自动带 token
       // 注意：这里的 URL 不带 /api 前缀，直接对应 NestJS 的路由
-      const msg = await queryCurrentUser();
-      return msg;
-    } catch (error) {
+      const msg = await getCurrentAdminUserProfile();
+      if (msg.status === 200 && msg.data) {
+        return msg.data;
+      }
       // 如果 Token 失效或请求失败，跳转登录页
       history.push(LOGIN_PATH);
+    } catch (error) {
+      history.push(LOGIN_PATH);
     }
-    return undefined;
   };
 
   // 如果不是登录页，执行获取用户信息
@@ -136,7 +138,7 @@ export const request: RequestConfig = {
       if (token) {
         config.headers = {
           ...config.headers,
-          Authorization: `Bearer ${token}`,
+          'jxe-token': `${token}`,
         };
       }
       return config;

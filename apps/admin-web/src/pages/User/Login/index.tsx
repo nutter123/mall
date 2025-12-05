@@ -107,7 +107,7 @@ const Login: React.FC = () => {
           return;
         }
       }
-      const data = await loginAdminUser(values);
+      const { data } = await loginAdminUser(values);
       if (data) {
         message.success('登录成功！');
         // 1. 存 Token
@@ -115,19 +115,10 @@ const Login: React.FC = () => {
         // 2. 存全局用户信息
         await fetchUserInfo();
         // 3. 跳转
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
         return;
       }
-
-      // === 登录成功逻辑 ===
-      message.success('登录成功！');
-
-      // 1. 存 Token
-      localStorage.setItem('token', data);
-      // 2. 存全局用户信息
-      await fetchUserInfo();
-      // 3. 跳转
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
     } catch (error) {
       message.error('登录失败');
     }

@@ -25,7 +25,7 @@ import { SeckillDiscountZoneResVO } from './vo/SeckillDiscountZoneRes.vo';
 import { NewWelfareVO } from '../coupon/vo/NewWelfare.vo';
 import { RecommendZoneGoodsAndComboResVO } from './vo/RecommendZoneGoodsAndComboRes.vo';
 import { RecommendZoneGoodsAndComboReqVO } from './vo/RecommendZoneGoodsAndComboReq.vo';
-import { CommonPage } from '../../common/dto/common-page.dto';
+import { CommonPageRes } from '../../common/dto/common-page.dto';
 import { BackgroundVO } from './vo/Background.vo';
 import { Public } from '@/common/decorators/public.decorator';
 
@@ -133,7 +133,7 @@ export class HomeController {
     // NestJS: @Query() 接收整个 DTO 对象，全局 ValidationPipe 处理 @Valid
     @Query() recommendZoneGoodsAndComboReqVO: RecommendZoneGoodsAndComboReqVO,
     @CommonHeaders() headers: CommonHeadersDto,
-  ): Promise<CommonPage<RecommendZoneGoodsAndComboResVO>> {
+  ): Promise<CommonPageRes<RecommendZoneGoodsAndComboResVO>> {
     return this.homeService.recommendZoneGoodsAndCombo(
       recommendZoneGoodsAndComboReqVO,
     );

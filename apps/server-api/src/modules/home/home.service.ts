@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 
 // 导入 VO/DTO
-import { CommonPage } from '../../common/dto/common-page.dto';
+import { CommonPageRes } from '../../common/dto/common-page.dto';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { SiteConverter } from '../site/site.converter';
 import { AdvertisingService } from '../advertising/advertising.service';
@@ -198,7 +198,7 @@ export class HomeService {
    */
   async recommendZoneGoodsAndCombo(
     recommendZoneGoodsAndComboReqVO: RecommendZoneGoodsAndComboReqVO,
-  ): Promise<CommonPage<RecommendZoneGoodsAndComboResVO>> {
+  ): Promise<CommonPageRes<RecommendZoneGoodsAndComboResVO>> {
     // Java: QueryWrapper<WeComEntranceEntity> queryWrapper = new QueryWrapper<>();
     // Java: queryWrapper.eq("site_id", recommendZoneGoodsAndComboReqVO.getId());
 
@@ -216,7 +216,7 @@ export class HomeService {
     };
 
     // 使用 CommonPage.restPage 静态方法创建分页结果
-    const commonPage = CommonPage.restPage(iPage, records);
+    const commonPage = CommonPageRes.restPage(iPage, records);
 
     return commonPage;
   }

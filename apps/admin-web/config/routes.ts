@@ -73,17 +73,10 @@ export default [
     ],
   },
   {
-    path: '/admin',
-    name: 'admin',
+    path: '/user/manage',
+    name: '用户管理',
     icon: 'user',
-    routes: [
-      {
-        name: 'manage',
-        icon: 'smile',
-        path: '/admin/manage',
-        component: './admin/manage/index',
-      },
-    ],
+    component: './user/manage/index',
   },
   {
     path: '/form',

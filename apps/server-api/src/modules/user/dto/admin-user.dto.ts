@@ -13,7 +13,7 @@ export class QueryAdminUserDto {
 
   @ApiProperty({ description: '用户名/昵称模糊搜索', required: false })
   @IsOptional()
-  keyword?: string;
+  username?: string;
   
   @ApiProperty({ description: '开始时间', required: false })
   @IsOptional()
