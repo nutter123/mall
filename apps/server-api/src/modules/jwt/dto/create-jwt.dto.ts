@@ -1,1 +1,3 @@
-export class CreateJwtDto {}
+export class CreateJwtDto {
+	userId: string;
+}

@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { ProductModule } from './modules/product/product.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { UserModule } from './modules/user/user.module';
-import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { CartModule } from './modules/cart/cart.module';
@@ -42,6 +41,8 @@ import { TokenModule } from './modules/token/token.module';
 import { VipModule } from './modules/vip/vip.module';
 import { WechatModule } from './modules/wechat/wechat.module';
 import { CommonModule } from './modules/common/common.module';
+import { MemberModule } from './modules/member/member.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -108,7 +109,6 @@ import { CommonModule } from './modules/common/common.module';
     AddressModule,
     AdvertisingModule,
     ArticleModule,
-    AuthModule,
     CalcModule,
     CartModule,
     ComboModule,
@@ -120,6 +120,7 @@ import { CommonModule } from './modules/common/common.module';
     InfoModule,
     // InventoryModule,
     JwtModule,
+    AuthModule,
     MerchantBModule,
     NavigationModule,
     // OrderModule,
@@ -132,6 +133,7 @@ import { CommonModule } from './modules/common/common.module';
     UserModule,
     VipModule,
     WechatModule,
+    MemberModule,
     // WecomModule,
   ],
   controllers: [AppController],

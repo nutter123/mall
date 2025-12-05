@@ -1,10 +1,10 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe} from '@nestjs/common';
 import {ApiBody, ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
-import {ApiCommonHeadersWithoutSiteId} from "../../common/decorators/api-common-headers-without-site-id.decorator";
+import {MallHeadersWithoutSiteId} from "../../common/decorators/mall-headers.decorator";
 import {ApiResWrapper} from "../../common/decorators/api-res-wrapper.decorator";
 import {CommonHeaders } from "../../common/decorators/common-headers.decorator";
 import type {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
-import {ApiCommonHeaders} from "../../common/decorators/api-common-headers.decorator";
+import {MallHeaders} from "../../common/decorators/mall-headers.decorator";
 import {CalcService} from "./calc.service";
 import {CalcBuyVO} from "./vo/CalcBuy.vo";
 import {BuyCalcDTO} from "./vo/BuyCalc.dto";
@@ -15,7 +15,7 @@ export class CalcController {
 
   @Post('buyCalc')
   @ApiOperation({ summary: '1. 立即购买结算' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
   @ApiResWrapper(CalcBuyVO)
   @ApiBody({ type: BuyCalcDTO, description: '购买计算 DTO' })
   async buyCalc(

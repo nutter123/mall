@@ -8,6 +8,7 @@ import { AddressVO } from './vo/Address.vo';
 import { Address } from './entities/address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { MemberService } from '../member/member.service';
 
 // 假设 AddressType 枚举已转换为 TypeScript
 export enum AddressTypeCode {
@@ -33,7 +34,7 @@ export class AddressService {
   constructor(
     @InjectRepository(Address)
     private addressRepo: Repository<Address>,
-    private readonly userService: UserService,
+    private readonly memberService: MemberService,
     private readonly addressConverter: AddressConverter,
   ) {}
 
@@ -67,8 +68,8 @@ export class AddressService {
   async listStatusGroup(siteId: string, lat: string, lng: string): Promise<AddressGroupVO[]> {
     // 1. 获取用户ID (Java: String userId = userService.getUserId();)
     // ⚠️ 警告：getUserId() 必须在 Controller 层通过认证机制获取，Service 不应直接访问上下文。
-    // 这里假设 UserService.getUserId() 能异步返回当前用户 ID
-    const userIdString = await this.userService.getUserId();
+    // 这里假设 MemberService.getUserId() 能异步返回当前用户 ID
+    const userIdString = await this.memberService.getUserId();
 
     if (!userIdString) {
       return []; // 对应 Collections.emptyList()

@@ -38,33 +38,15 @@ export class CommonService {
    * 获取停业配置
    */
   async getStop(headers: CommonHeadersDto): Promise<GetStopResVO> {
-    const getStopResVO = new GetStopResVO();
-
-    // 对应 Java: String mallName = requestContext.getEdition();
-    const mallName = headers.edition;
-
-    if (!mallName) {
-      getStopResVO.edition = 'mall_h5';
-    } else {
-      getStopResVO.edition = mallName;
-    }
-    /**
-      bindTime: null
-      edition: "mall_mp_wx"
-      linkValue: ""
-      mourningThemeOpen: false
-      openId: null
-      stop: false
-      unionId: null
-    */
-    // 模拟其他业务逻辑赋值
-    getStopResVO.bindTime = null;
-    getStopResVO.linkValue = '';
-    getStopResVO.mourningThemeOpen = false;
-    getStopResVO.openId = null;
-    getStopResVO.stop = false;
-    getStopResVO.unionId = null;
-
+    const getStopResVO = {
+      edition: 'mall_mp_wx',
+      stop: false,
+      linkValue: '',
+      mourningThemeOpen: false,
+      unionId: 'oQp4Z0-ARA5Tu-d-6eBm_2M2iIjI',
+      openId: 'oSegQ5cMZlIiQjt1qIENCUJiUWA',
+      bindTime: '2025-12-03 16:00:15',
+    };
     return getStopResVO;
   }
 

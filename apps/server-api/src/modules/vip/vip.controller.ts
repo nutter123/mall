@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { VipService } from './vip.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.decorator';
+import { MallHeaders } from '../../common/decorators/mall-headers.decorator';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import type { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
 import { CommonHeaders } from '../../common/decorators/common-headers.decorator';
@@ -19,7 +19,7 @@ export class VipController {
    */
   @Get('vipDayPopup')
   @ApiOperation({ summary: '20.会员日弹屏' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
   @ApiResWrapper(VipDayPopupResVO) // 自动包装 CommonRes<VipDayPopupResVO>
   vipDayPopup(@CommonHeaders() headers: CommonHeadersDto): VipDayPopupResVO {
     // 对应 Java 的 VipDayPopupResVO.builder()...build();
@@ -43,7 +43,7 @@ export class VipController {
    */
   @Get('getUserVipInfo')
   @ApiOperation({ summary: '1. 获取用户会员信息' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiResWrapper(VipVO) // 自动包装 CommonRes<UserVipInfo>
   async getUserVipInfo(
     @CommonHeaders() headers: CommonHeadersDto,
@@ -57,7 +57,7 @@ export class VipController {
    */
   @Get('getLevelRelation')
   @ApiOperation({ summary: '16.查询等级奖励' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiResWrapper(LevelRelationVO) // 自动包装 CommonRes<LevelRelationVO>
   getLevelRelation(
     @CommonHeaders() headers: CommonHeadersDto,

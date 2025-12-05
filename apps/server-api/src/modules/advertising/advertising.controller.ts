@@ -1,10 +1,10 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe} from '@nestjs/common';
 import {ApiOperation, ApiQuery, ApiTags} from "@nestjs/swagger";
-import {ApiCommonHeadersWithoutSiteId} from "../../common/decorators/api-common-headers-without-site-id.decorator";
+import {MallHeadersWithoutSiteId} from "../../common/decorators/mall-headers.decorator";
 import {ApiResWrapper} from "../../common/decorators/api-res-wrapper.decorator";
 import {CommonHeaders } from "../../common/decorators/common-headers.decorator";
 import type {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
-import {ApiCommonHeaders} from "../../common/decorators/api-common-headers.decorator";
+import {MallHeaders} from "../../common/decorators/mall-headers.decorator";
 
 import {AdvertisingService} from "./advertising.service";
 import {GetListResVO} from "./vo/GetListRes.vo";
@@ -19,7 +19,7 @@ export class AdvertisingController {
    */
   @Get('getList')
   @ApiOperation({ summary: '1. 获取广告数组' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
 
   // Query 参数文档化
   @ApiQuery({ name: 'position', description: '位置', type: String })

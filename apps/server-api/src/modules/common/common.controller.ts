@@ -3,7 +3,7 @@ import { CommonService } from './common.service';
 import { CreateCommonDto } from './dto/create-common.dto';
 import { UpdateCommonDto } from './dto/update-common.dto';
 import {ApiBody, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {ApiCommonHeaders} from "../../common/decorators/api-common-headers.decorator";
+import {MallHeaders} from "../../common/decorators/mall-headers.decorator";
 import {ApiResWrapper} from "../../common/decorators/api-res-wrapper.decorator";
 import {CommonHeaders} from "../../common/decorators/common-headers.decorator";
 import type {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
@@ -20,7 +20,7 @@ export class CommonController {
 
   @Get('getStop')
   @ApiOperation({ summary: '6. 获取停业配置' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
   @ApiResWrapper(GetStopResVO) // 自动包装 CommonRes<GetStopResVO>
   getStop(@CommonHeaders() headers: CommonHeadersDto): Promise<GetStopResVO> {
     // Java 代码: return CommonRes.success(commonService.getStop());
@@ -42,7 +42,7 @@ export class CommonController {
 
   @Post('subscribeMessage')
   @ApiOperation({ summary: '18. 消息订阅' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
   @ApiResWrapper(Boolean) // 自动包装 CommonRes<Boolean>
   @ApiBody({ type: SubscribeMessageReqVO, description: '消息订阅 VO' })
   subscribeMessage(

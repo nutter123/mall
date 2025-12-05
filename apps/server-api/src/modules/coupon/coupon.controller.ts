@@ -15,14 +15,14 @@ import { CouponService } from './coupon.service';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.decorator';
+import { MallHeaders } from '../../common/decorators/mall-headers.decorator';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import { CommonHeaders } from '../../common/decorators/common-headers.decorator';
 import type { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
 import { GetNewUserCouponResVO } from './vo/GetNewUserCouponRes.vo';
 import { UserCouponInfoVO } from './vo/UserCouponInfo.vo';
 import { GetCouponDrawCouponVO } from './vo/GetCouponDrawCoupon.vo';
-import { ApiCommonHeadersWithoutSiteId } from '../../common/decorators/api-common-headers-without-site-id.decorator';
+import { MallHeadersWithoutSiteId } from '../../common/decorators/mall-headers.decorator';
 import { StringToBigIntPipe } from '../../common/pipes/string-to-bigint.pipe';
 
 @ApiTags('优惠券管理') // 对应 @Tag(name = "优惠券管理")
@@ -35,7 +35,7 @@ export class CouponController {
    */
   @Get('getNewUserCoupon')
   @ApiOperation({ summary: '9.查询用户新人优惠券' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiQuery({ name: 'siteId', description: '站点ID', type: Number })
   @ApiResWrapper(GetNewUserCouponResVO) // 自动包装 CommonRes<GetNewUserCouponResVO>
   async getNewUserCoupon(
@@ -51,7 +51,7 @@ export class CouponController {
    */
   @Get('getNewUserCouponInfo')
   @ApiOperation({ summary: '34. 新人优惠券信息' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiQuery({ name: 'siteId', description: '站点ID', type: Number })
   @ApiResWrapper(UserCouponInfoVO)
   getNewUserCouponInfo(
@@ -70,7 +70,7 @@ export class CouponController {
    */
   @Get('getUserOverdueNum')
   @ApiOperation({ summary: '13.用户优惠券过期提醒数量' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiResWrapper(Number) // 返回 CommonRes<Integer> 对应 CommonRes<Number>
   getUserOverdueNum(): number {
     const num = 0;
@@ -82,7 +82,7 @@ export class CouponController {
    */
   @Get('getCouponDrawCoupon')
   @ApiOperation({ summary: '18.领券优惠券列表' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiQuery({ name: 'siteId', description: '站点ID', type: Number })
   @ApiResWrapper(GetCouponDrawCouponVO) // 自动包装 CommonRes<List<GetCouponDrawCouponVO>>
   async getCouponDrawCoupon(
@@ -106,7 +106,7 @@ export class CouponController {
    */
   @Get('getSelfCoupon')
   @ApiOperation({ summary: '14.查询商品可用优惠券列表' })
-  @ApiCommonHeadersWithoutSiteId() // 对应 @CommonHeadersWithoutSiteId
+  @MallHeadersWithoutSiteId() // 对应 @CommonHeadersWithoutSiteId
   @ApiResWrapper(GetCouponDrawCouponVO) // 返回 CommonRes<List<GetCouponDrawCouponVO>>
   @ApiQuery({ name: 'goodsId', description: '商品ID', type: String })
   @ApiQuery({ name: 'siteId', description: '站点ID', type: Number })
@@ -141,7 +141,7 @@ export class CouponController {
    */
   @Post('drawCouponOne')
   @ApiOperation({ summary: '19.领取优惠券（单张）' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiQuery({ name: 'id', description: '优惠券ID', type: String })
   @ApiQuery({ name: 'lat', description: '纬度', required: false, type: String })
   @ApiQuery({ name: 'lng', description: '经度', required: false, type: String })

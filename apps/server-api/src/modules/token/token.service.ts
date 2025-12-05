@@ -4,15 +4,16 @@ import { UpdateTokenDto } from './dto/update-token.dto';
 import { TokenVO } from './vo/token.vo';
 import { GetByWechatMpReqVO } from './vo/GetByWechatMpReq.vo';
 import { WechatService } from '../wechat/wechat.service';
-import { UserService } from '../user/user.service';
 import { JwtService } from '../jwt/jwt.service';
 import { Util } from '../../common/utils/util';
+import { CreateJwtDto } from '../jwt/dto/create-jwt.dto';
+import { MemberService } from '../member/member.service';
 
 @Injectable()
 export class TokenService {
   constructor(
     private readonly wechatService: WechatService,
-    private readonly userService: UserService,
+    private readonly memberService: MemberService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -60,20 +61,21 @@ export class TokenService {
     const openid: string = await this.wechatService.wxLogin(reqVO);
 
     // 2. 查询用户
-    let user = await this.userService.getUserByOpenid(openid);
+    let user = await this.memberService.getUserByOpenid(openid);
 
     if (user === null) {
       // 3. 用户不存在，生成手机号并注册
       const phone: string = Util.generatePhone();
-      user = await this.userService.register(phone, openid);
+      user = await this.memberService.register(phone, openid);
 
       // 备注: 如果需要抛出异常（例如手机号已存在），应在此处抛出 BusinessException
     }
 
     // 4. 生成 token
-    const token: string = await this.jwtService.generateToken(
-      user.id.toString(),
-    );
+    const jwtDto: CreateJwtDto = {
+      userId: user.id.toString(),
+    };
+    const token: string = await this.jwtService.generateToken(jwtDto);
 
     // 5. 构建 TokenVO
     const tokenVO = new TokenVO();
@@ -94,14 +96,17 @@ export class TokenService {
     const openid: string = '111'; // 模拟数据
 
     // 3. 查询用户
-    let user = await this.userService.getUserByPhone(phone);
+    let user = await this.memberService.getUserByPhone(phone);
 
     if (user === null) {
       // 4. 用户不存在，注册用户
-      user = await this.userService.register(phone, openid);
+      user = await this.memberService.register(phone, openid);
     }
 
     // 5. 生成 token
-    return this.jwtService.generateToken(user.id.toString());
+    const jwtDto: CreateJwtDto = {
+      userId: user.id.toString(),
+    };
+    return this.jwtService.generateToken(jwtDto);
   }
 }

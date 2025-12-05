@@ -73,6 +73,19 @@ export default [
     ],
   },
   {
+    path: '/admin',
+    name: 'admin',
+    icon: 'user',
+    routes: [
+      {
+        name: 'manage',
+        icon: 'smile',
+        path: '/admin/manage',
+        component: './admin/manage/index',
+      },
+    ],
+  },
+  {
     path: '/form',
     icon: 'form',
     name: 'form',

@@ -17,7 +17,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('v2-app-mall', {
     exclude: [
-      'admin/(.*)',     // 如果你有 admin 开头的也排除
+      'test-api/(.*)',     // 如果你有 admin 开头的也排除
     ],
   });
 

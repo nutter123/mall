@@ -11,11 +11,11 @@ import {
 import { ApiTags, ApiOperation, ApiQuery, ApiBody } from '@nestjs/swagger';
 
 // 导入自定义的 Swagger 包装器和 Header 装饰器
-import {ApiCommonHeadersWithoutSiteId} from "../../common/decorators/api-common-headers-without-site-id.decorator";
+import {MallHeadersWithoutSiteId} from "../../common/decorators/mall-headers.decorator";
 import {ApiResWrapper} from "../../common/decorators/api-res-wrapper.decorator";
 import {CommonHeaders } from "../../common/decorators/common-headers.decorator";
 import type {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
-import {ApiCommonHeaders} from "../../common/decorators/api-common-headers.decorator";
+import {MallHeaders} from "../../common/decorators/mall-headers.decorator";
 import { StringToBigIntPipe } from '../../common/pipes/string-to-bigint.pipe';
 import {GoodsService} from "./goods.service";
 import {GoodDTO} from "./dto/Good.dto";
@@ -55,7 +55,7 @@ export class GoodsController {
    */
   @Get('getDetail')
   @ApiOperation({ summary: '1. 获取商品详情' })
-  @ApiCommonHeadersWithoutSiteId()
+  @MallHeadersWithoutSiteId()
 
   // Query 参数文档化： Long ID 转换为 String
   @ApiQuery({ name: 'id', description: '商品id', required: true, type: String })
@@ -80,7 +80,7 @@ export class GoodsController {
    */
   @Get('getBuyNotCombo')
   @ApiOperation({ summary: '2. 获取商品购买信息' })
-  @ApiCommonHeadersWithoutSiteId()
+  @MallHeadersWithoutSiteId()
 
   // Query 参数文档化
   @ApiQuery({ name: 'id', description: '商品id', required: true, type: String })
@@ -105,7 +105,7 @@ export class GoodsController {
    */
   @Get('getCombo')
   @ApiOperation({ summary: '14. 获取套餐列表' })
-  @ApiCommonHeadersWithoutSiteId()
+  @MallHeadersWithoutSiteId()
   @ApiQuery({ name: 'id', description: '商品id', required: true, type: String })
 
   @ApiResWrapper(GoodBaseInfoVO) // 自动包装 CommonRes<GoodBaseInfoVO>

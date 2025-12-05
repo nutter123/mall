@@ -10,7 +10,7 @@ import {
 import { MerchantBService } from './merchant-b.service';
 import { CreateMerchantBDto } from './dto/create-merchant-b.dto';
 import { UpdateMerchantBDto } from './dto/update-merchant-b.dto';
-import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.decorator';
+import { MallHeaders } from '../../common/decorators/mall-headers.decorator';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import { AddressGroupVO } from '../address/vo/AddressGroup.vo';
 import { CommonRes } from '../../common/dto/common-res.dto';
@@ -20,7 +20,7 @@ export class MerchantBController {
   constructor(private readonly merchantBService: MerchantBService) {}
 
   @Get('merchantMain')
-  @ApiCommonHeaders()
+  @MallHeaders()
   merchantMain() {
     return {
       levelUpNeedPeople: 10,
@@ -50,7 +50,7 @@ export class MerchantBController {
   }
 
   @Get('rewardCenterBringGoods')
-  @ApiCommonHeaders()
+  @MallHeaders()
   rewardCenterBringGoods() {
     return {
       orderCount: 12,
@@ -59,7 +59,7 @@ export class MerchantBController {
   }
 
   @Get('rewardCenterInvite')
-  @ApiCommonHeaders()
+  @MallHeaders()
   rewardCenterInvite() {
     return {
       friendCount: 12,
@@ -68,7 +68,7 @@ export class MerchantBController {
   }
 
   @Get('rewardCenter')
-  @ApiCommonHeaders()
+  @MallHeaders()
   rewardCenter() {
     return {
       bankCardError: false,
@@ -85,7 +85,7 @@ export class MerchantBController {
   }
 
   @Get('levelExplain')
-  @ApiCommonHeaders()
+  @MallHeaders()
   levelExplain() {
     return {
       currentRetailLevel: 'silver',
@@ -115,7 +115,7 @@ export class MerchantBController {
   }
 
   @Get('cashOutOrderPage')
-  @ApiCommonHeaders()
+  @MallHeaders()
   cashOutOrderPage() {
     return {
       total: '0',
@@ -198,7 +198,7 @@ export class MerchantBController {
   }
 
   @Get('cashOut')
-  @ApiCommonHeaders()
+  @MallHeaders()
   cashOut() {
     return {
       cashBrokerageCutFee: 50,
@@ -213,7 +213,7 @@ export class MerchantBController {
   }
 
   @Get('cashOutConfirm')
-  @ApiCommonHeaders()
+  @MallHeaders()
   cashOutConfirm() {
     return {
       cashOutStatus: true,
@@ -222,7 +222,7 @@ export class MerchantBController {
   }
 
   @Get('cashOutRecordPage')
-  @ApiCommonHeaders()
+  @MallHeaders()
   cashOutRecordPage() {
     return {
       current: 1,
@@ -338,7 +338,7 @@ export class MerchantBController {
   }
 
   @Get('rewardCenterBringGoodsDetail')
-  @ApiCommonHeaders()
+  @MallHeaders()
   rewardCenterBringGoodsDetail() {
     return {
       current: 1,
@@ -454,7 +454,7 @@ export class MerchantBController {
   }
 
   @Get('cashOutOrderRecordDetails')
-  @ApiCommonHeaders()
+  @MallHeaders()
   cashOutOrderRecordDetails() {
     return {
       data: [
@@ -562,7 +562,7 @@ export class MerchantBController {
   }
 
   @Get('retailInviteRecord')
-  @ApiCommonHeaders()
+  @MallHeaders()
   retailInviteRecord() {
     return {
       current: 1,
@@ -621,7 +621,7 @@ export class MerchantBController {
   }
 
   @Get('myWineFriendPage')
-  @ApiCommonHeaders()
+  @MallHeaders()
   myWineFriendPage() {
     return {
       current: 1,
@@ -668,7 +668,7 @@ export class MerchantBController {
   }
 
   @Get('myWineFriendBoard')
-  @ApiCommonHeaders()
+  @MallHeaders()
   myWineFriendBoard() {
     return {
       activityAmount: 8800,
@@ -689,7 +689,7 @@ export class MerchantBController {
   }
 
   @Get('intentionWineFriendPage')
-  @ApiCommonHeaders()
+  @MallHeaders()
   intentionWineFriendPage() {
     return {
       current: 1,
@@ -748,7 +748,7 @@ export class MerchantBController {
   }
 
   @Get('wineFriendRewardDetail')
-  @ApiCommonHeaders()
+  @MallHeaders()
   wineFriendRewardDetail() {
     return {
       current: 1,
@@ -831,7 +831,7 @@ export class MerchantBController {
   }
 
   @Get('wineFriendInfo')
-  @ApiCommonHeaders()
+  @MallHeaders()
   wineFriendInfo() {
     return {
       buyNum: 5,
@@ -847,14 +847,14 @@ export class MerchantBController {
   }
 
   @Get('deskList')
-  @ApiCommonHeaders()
+  @MallHeaders()
   deskList() {
     return {
       data: [
         {
           id: '1409492543001993271',
           merchantInfoId: '1409492543001993229',
-          shopName: null,
+          shopName: null as any,
           deskNo: '202511203640',
           deskName: '1',
           capacityMin: 1,
@@ -895,7 +895,7 @@ export class MerchantBController {
   }
 
   @Get('category')
-  @ApiCommonHeaders()
+  @MallHeaders()
   category() {
     return [
       { categoryId: '1', enable: true, categoryName: '一级' },
@@ -908,7 +908,7 @@ export class MerchantBController {
   }
 
   @Get('page')
-  @ApiCommonHeaders()
+  @MallHeaders()
   page() {
     return {
       total: '55',
@@ -926,7 +926,7 @@ export class MerchantBController {
           price: 23800,
           imgUrlNotGif:
             'https://outside-dev-static.v2.jiuxiao2.cn/outside/fms/img/c2ceed6ad897400a8f5ec9ded9100ff0.png?x-oss-process=image/resize,w_200,h_200/format,webp',
-          merchantRetailCash: null,
+          merchantRetailCash: null as any,
           enable: true,
         },
         {

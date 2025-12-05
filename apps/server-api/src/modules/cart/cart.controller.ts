@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { ApiCommonHeadersWithoutSiteId } from '../../common/decorators/api-common-headers-without-site-id.decorator';
+import { MallHeadersWithoutSiteId } from '../../common/decorators/mall-headers.decorator';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import { CommonHeaders } from '../../common/decorators/common-headers.decorator';
 import type { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
-import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.decorator';
+import { MallHeaders } from '../../common/decorators/mall-headers.decorator';
 import { Cart } from './entities/cart.entity';
 @ApiTags('购物车接口') // 对应 @Tag(name = "购物车接口")
 @Controller('cart') // 对应 @RequestMapping("/v2-app-mall/cart") 的 'cart' 部分
@@ -16,7 +16,7 @@ export class CartController {
    */
   @Get('getCartGoodsId')
   @ApiOperation({ summary: '1. 获取购物车商品id' })
-  @ApiCommonHeaders() // 对应 @CommonHeaders
+  @MallHeaders() // 对应 @CommonHeaders
   // 自动包装 CommonRes<List<Cart>>
   @ApiResWrapper(Cart)
   getCartGoodsId(@CommonHeaders() headers: CommonHeadersDto): Cart[] {
@@ -29,7 +29,7 @@ export class CartController {
    */
   @Get('getCartCount')
   @ApiOperation({ summary: '1. 获取购物车总数' })
-  @ApiCommonHeaders()
+  @MallHeaders()
   // 自动包装 CommonRes<Integer> 对应 CommonRes<Number>
   @ApiResWrapper(Number)
   getCartCount(@CommonHeaders() headers: CommonHeadersDto): number {
@@ -42,7 +42,7 @@ export class CartController {
    */
   @Get('getCartInfo')
   @ApiOperation({ summary: '2. 获取购物车信息' })
-  @ApiCommonHeadersWithoutSiteId()
+  @MallHeadersWithoutSiteId()
   @ApiQuery({
     name: 'siteId',
     description: '站点ID',

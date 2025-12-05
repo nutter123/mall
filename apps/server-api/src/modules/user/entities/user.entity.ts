@@ -106,12 +106,6 @@ export class User extends BaseEntity {
   @Column({ name: 'open_id', type: 'varchar', length: 100, unique: true, nullable: true })
   openId?: string;
 
-  @CreateDateColumn({ name: 'create_time' })
-  createTime: Date;
-
-  @UpdateDateColumn({ name: 'update_time' })
-  updateTime: Date;
-
   @Column({ name: 'god_user', type: 'boolean', default: false, nullable: true })
   godUser?: boolean;
 }

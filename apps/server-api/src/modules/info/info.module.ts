@@ -4,9 +4,10 @@ import { InfoController } from './info.controller';
 import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Info } from './entities/info.entity';
+import { MemberModule } from '../member/member.module';
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forFeature([Info])],
+  imports: [MemberModule, TypeOrmModule.forFeature([Info])],
   controllers: [InfoController],
   providers: [InfoService],
 })

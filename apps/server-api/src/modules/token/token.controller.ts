@@ -12,7 +12,7 @@ import { CreateTokenDto } from './dto/create-token.dto';
 import { UpdateTokenDto } from './dto/update-token.dto';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
-import { ApiCommonHeaders } from '../../common/decorators/api-common-headers.decorator';
+import { MallHeaders } from '../../common/decorators/mall-headers.decorator';
 import { TokenVO } from './vo/token.vo';
 import { GetByWechatMpReqVO } from './vo/GetByWechatMpReq.vo';
 
@@ -36,7 +36,7 @@ export class TokenController {
     summary: '通过微信小程序获取Token',
     description: '根据微信小程序参数获取用户Token',
   })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiResWrapper(TokenVO)
   @ApiBody({type: GetByWechatMpReqVO, description: '微信小程序请求参数'})
   async getByWechatMp(@Body() reqVO: GetByWechatMpReqVO): Promise<TokenVO> {
@@ -48,7 +48,7 @@ export class TokenController {
     summary: '通过微信小程序解码绑定',
     description: '处理微信小程序解码绑定逻辑',
   })
-  @ApiCommonHeaders()
+  @MallHeaders()
   @ApiResWrapper(String)
   async bindByWechatMpDecode(): Promise<string> {
     return await this.tokenService.getTokenByWechatMpDecode();

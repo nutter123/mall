@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { TokenController } from './token.controller';
-import {UserModule} from "../user/user.module";
 import {WechatModule} from "../wechat/wechat.module";
 import {JwtModule} from "../jwt/jwt.module";
+import { MemberModule } from '../member/member.module';
 
 @Module({
   imports: [
-      UserModule,
+      MemberModule,
       WechatModule,
       JwtModule
   ],

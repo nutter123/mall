@@ -1,6 +1,6 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/common';
 import {ApiOperation, ApiQuery} from "@nestjs/swagger";
-import {ApiCommonHeadersWithoutSiteId} from "../../common/decorators/api-common-headers-without-site-id.decorator";
+import {MallHeadersWithoutSiteId} from "../../common/decorators/mall-headers.decorator";
 import {ApiResWrapper} from "../../common/decorators/api-res-wrapper.decorator";
 import {CommonHeaders } from "../../common/decorators/common-headers.decorator";
 import type {CommonHeadersDto} from "../../common/decorators/common-headers.decorator";
@@ -16,7 +16,7 @@ export class AddressController {
    */
   @Get('listStatusGroup')
   @ApiOperation({ summary: '14. 地址列表状态分组' })
-  @ApiCommonHeadersWithoutSiteId() // 对应 @CommonHeadersWithoutSiteId
+  @MallHeadersWithoutSiteId() // 对应 @CommonHeadersWithoutSiteId
 
   // Query 参数文档化
   @ApiQuery({ name: 'siteId', description: '站点ID', type: String })

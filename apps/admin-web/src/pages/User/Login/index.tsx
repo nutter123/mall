@@ -16,7 +16,7 @@ import { Footer } from '@/components';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import Settings from '../../../../config/defaultSettings';
-import { authControllerLoginAdmin, authControllerRegisterAdmin } from '@/services/mall/auth';
+import { loginAdminUser, registerAdminUser } from '@/services/mall/adminUser';
 
 // 定义登录参数类型
 interface LoginParams {
@@ -97,21 +97,21 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: API.CreateAdminUserDto) => {
     try {
       if (isRegister) {
-        const data = await authControllerRegisterAdmin(values);
-        if (data.status === 200) {
+        const data = await registerAdminUser(values);
+        if (data) {
           message.success('注册成功，请直接登录');
           setIsRegister(false); // 切回登录模式
           return;
         }
       }
-      const data = await authControllerLoginAdmin(values);
-      if (data.status === 200) {
+      const data = await loginAdminUser(values);
+      if (data) {
         message.success('登录成功！');
         // 1. 存 Token
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data);
         // 2. 存全局用户信息
         await fetchUserInfo();
         // 3. 跳转
@@ -122,7 +122,7 @@ const Login: React.FC = () => {
       message.success('登录成功！');
 
       // 1. 存 Token
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data);
       // 2. 存全局用户信息
       await fetchUserInfo();
       // 3. 跳转
@@ -169,7 +169,7 @@ const Login: React.FC = () => {
             </div>
           }
           onFinish={async (values) => {
-            await handleSubmit(values as LoginParams);
+            await handleSubmit(values as API.CreateAdminUserDto);
           }}
           submitter={{
             searchConfig: {
