@@ -3,10 +3,11 @@ import {
 	type ActionType,
 	ModalForm,
 	ProFormText,
+	type ProFormInstance,
 } from '@ant-design/pro-components';
 import { useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 import { createAdminUser } from '../../../../services/mall/adminUser';
 
 interface CreateFormProps {
@@ -16,6 +17,7 @@ interface CreateFormProps {
 const CreateForm: FC<CreateFormProps> = (props) => {
 	const { reload } = props;
 
+	const formRef = useRef<ProFormInstance>(null);
 	const [messageApi, contextHolder] = message.useMessage();
 
 	const { run, loading } = useRequest(createAdminUser, { 
@@ -33,6 +35,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
 		<>
 			{contextHolder}
 			<ModalForm
+				formRef={formRef}
 				title="新建管理员"
 				trigger={
 					<Button type="primary" icon={<PlusOutlined />}>
@@ -41,9 +44,13 @@ const CreateForm: FC<CreateFormProps> = (props) => {
 				}
 				width="400px"
 				modalProps={{ okButtonProps: { loading } }}
+				onOpenChange={(open) => {
+					if (open) {
+						formRef.current?.resetFields();
+					}
+				}}
 				onFinish={async (value) => {
 					await run(value as API.CreateAdminUserDto);
-
 					return true;
 				}}
 			>

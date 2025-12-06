@@ -11,9 +11,13 @@ export class QueryAdminUserDto {
   @IsOptional()
   pageSize?: number;
 
-  @ApiProperty({ description: '用户名/昵称模糊搜索', required: false })
+  @ApiProperty({ description: '用户名', required: false })
   @IsOptional()
   username?: string;
+
+  @ApiProperty({ description: '昵称', required: false })
+  @IsOptional()
+  nickname?: string;
   
   @ApiProperty({ description: '开始时间', required: false })
   @IsOptional()
@@ -48,11 +52,7 @@ export class CreateAdminUserDto {
 }
 
 // === 3. 更新参数 (继承创建，但所有字段可选) ===
-export class UpdateAdminUserDto extends PartialType(CreateAdminUserDto) {
-  @ApiProperty({ description: 'ID', required: true })
-  @IsNotEmpty()
-  id: string;
-}
+export class UpdateAdminUserDto extends PartialType(CreateAdminUserDto) {}
 
 // === 4. 批量删除参数 ===
 export class BatchDeleteDto {

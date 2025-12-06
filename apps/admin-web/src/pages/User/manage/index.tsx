@@ -53,16 +53,13 @@ const TableList: React.FC = () => {
       title: '头像',
       dataIndex: 'avatar',
       valueType: 'avatar',
-      hideInSearch: true,
+      search: false,
       width: 60,
     },
     {
       title: '用户名',
       dataIndex: 'username',
       copyable: true,
-      formItemProps: {
-        rules: [{ required: true, message: '此项为必填项' }],
-      },
     },
     {
       title: '昵称',

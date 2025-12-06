@@ -4,7 +4,7 @@ import { BusinessException } from '../../common/exceptions/business.exception';
 import { UserConverter } from './user.converter';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Between, Like, Repository } from 'typeorm';
 import { LoginAdminDto } from './dto/login.dto';
 import { CreateJwtDto } from '../jwt/dto/create-jwt.dto';
 import { AdminUser } from './entities/admin-user.entity';
@@ -24,7 +24,7 @@ export class UserService {
   // 增删改查
   // === 创建用户 ===
   async create(dto: CreateAdminUserDto) {
-    const { username, password } = dto;
+    const { username, password, avatar, nickname } = dto;
 
     // 1. 查重
     const exist = await this.adminRepository.findOne({ where: { username } });
@@ -40,6 +40,8 @@ export class UserService {
     const admin = this.adminRepository.create({
       username,
       password: hashedPassword,
+      avatar,
+      nickname,
     });
 
     const savedAdmin = await this.adminRepository.save(admin);
@@ -59,6 +61,10 @@ export class UserService {
   }
   // === 更新用户 ===
   async update(id: string, dto: UpdateAdminUserDto): Promise<true> {
+    // 如果密码为空, 则不更新密码
+    if (!dto.password) {
+      delete dto.password;
+    }
     await this.adminRepository.update(id, dto);
     return true;
   }
@@ -72,12 +78,18 @@ export class UserService {
     const current = Number(reqVO.current) || 1;
     const pageSize = Number(reqVO.pageSize) || 20;
 
-    const { username } = reqVO;
+    const { username, nickname, startTime, endTime } = reqVO;
     const where: any = {};
 
     //模糊搜索
     if (username) {
       where.username = Like(`%${username}%`);
+    }
+    if (nickname) {
+      where.nickname = Like(`%${nickname}%`);
+    }
+    if (startTime && endTime) {
+      where.createdAt = Between(startTime, endTime);
     }
 
     const skip = (current - 1) * pageSize;
