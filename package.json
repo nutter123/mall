@@ -4,8 +4,7 @@
   "scripts": {
     "dev:server": "pnpm --filter server-api start:dev",
     "dev:admin": "pnpm --filter admin-web start",
-    "openapi:gen": "pnpm --filter admin-web openapi",
-    "dev": "turbo run dev:server dev:admin"
+    "openapi:gen": "pnpm --filter admin-web openapi"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
