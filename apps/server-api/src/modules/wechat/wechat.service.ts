@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateWechatDto } from './dto/create-wechat.dto';
 import { UpdateWechatDto } from './dto/update-wechat.dto';
 import { ConfigService } from '@nestjs/config';
@@ -47,14 +43,11 @@ export class WechatService {
   private getAppSecret(appId: string): string {
     // 实际项目中应根据 appId 查找对应的 Secret，这里简化为从配置中读取
     const secret =
-      this.configService.get<string>(
-        `WECHAT_APP_SECRET_${appId.toUpperCase()}`,
-      ) || this.configService.get<string>('WECHAT_DEFAULT_APP_SECRET');
+      this.configService.get<string>(`WECHAT_APP_SECRET_${appId.toUpperCase()}`) ||
+      this.configService.get<string>('WECHAT_DEFAULT_APP_SECRET');
     if (!secret) {
       this.logger.error(`AppSecret not found for appId: ${appId}`);
-      throw new InternalServerErrorException(
-        `Configuration error: AppSecret for ${appId} is missing.`,
-      );
+      throw new InternalServerErrorException(`Configuration error: AppSecret for ${appId} is missing.`);
     }
     return secret;
   }
@@ -67,10 +60,7 @@ export class WechatService {
     const appSecret = this.getAppSecret(reqVO.appid);
     const url = this.configService.get<string>('WECHAT_JSCODE2SESSION_URL');
     if (!url) {
-      throw new BusinessException(
-        'E5000',
-        '路由 WECHAT_JSCODE2SESSION_URL 未配置，请检查配置文件。',
-      );
+      throw new BusinessException('路由 WECHAT_JSCODE2SESSION_URL 未配置，请检查配置文件。');
     }
 
     try {
@@ -82,7 +72,7 @@ export class WechatService {
           grant_type: 'authorization_code',
         },
       });
-      const response = await firstValueFrom(response$) as { data: any };
+      const response = (await firstValueFrom(response$)) as { data: any };
 
       const data = response.data;
       this.logger.log(`获取 session_key 成功: ${JSON.stringify(data)}`);
@@ -90,11 +80,7 @@ export class WechatService {
       if (data.errcode) {
         this.logger.error(`微信认证失败: ${data.errmsg}`);
         // 抛出 BusinessException
-        throw new BusinessException(
-          'E4001',
-          '微信登录凭证无效', // 用户友好的提示
-          `微信 API 错误: ${data.errmsg}`,
-        );
+        throw new BusinessException('微信登录凭证无效');
       }
       return data.openid; // 返回包含 openid 和 session_key 的对象
     } catch (error: any) {
@@ -104,10 +90,7 @@ export class WechatService {
       if (error instanceof BusinessException) {
         throw error;
       }
-      throw new BusinessException(
-        'E4001',
-        '获取 session_key 失败: 内部错误或网络异常',
-      );
+      throw new BusinessException('获取 session_key 失败: 内部错误或网络异常');
     }
   }
 
@@ -126,13 +109,9 @@ export class WechatService {
       };
 
       // 发送请求获取手机号
-      const url =
-        this.configService.get<string>('WECHAT_PHONE_NUMBER_URL') +
-        `?access_token=${accessToken}`;
+      const url = this.configService.get<string>('WECHAT_PHONE_NUMBER_URL') + `?access_token=${accessToken}`;
 
-      const { data } = await firstValueFrom(
-        this.httpService.post(url, paramMap),
-      ) as { data: any };
+      const { data } = (await firstValueFrom(this.httpService.post(url, paramMap))) as { data: any };
 
       // 解析返回结果
       if (data.errcode === 0) {
@@ -141,17 +120,14 @@ export class WechatService {
         return phoneInfo.purePhoneNumber;
       } else {
         this.logger.error(`获取手机号失败: ${JSON.stringify(data)}`);
-        throw new BusinessException('E4001', `获取手机号失败: ${data.errmsg}`);
+        throw new BusinessException('获取手机号失败: 内部错误或网络异常');
       }
     } catch (error: any) {
       this.logger.error(`获取手机号异常: ${error.message}`, error.stack);
       if (error instanceof BusinessException) {
         throw error;
       }
-      throw new BusinessException(
-        'E4001',
-        '获取手机号异常: 内部错误或网络异常',
-      );
+      throw new BusinessException('获取手机号异常: 内部错误或网络异常');
     }
   }
 
@@ -164,38 +140,26 @@ export class WechatService {
     const url = this.configService.get<string>('WECHAT_ACCESS_TOKEN_URL');
 
     if (!url) {
-      throw new BusinessException(
-          'E5000',
-          '路由 WECHAT_JSCODE2SESSION_URL 未配置，请检查配置文件。',
-      );
+      throw new BusinessException('路由 WECHAT_JSCODE2SESSION_URL 未配置，请检查配置文件。');
     }
 
     try {
       const finalUrl = `${url}?grant_type=client_credential&appid=${appId}&secret=${appSecret}`;
 
-      const { data } = await firstValueFrom(this.httpService.get(finalUrl)) as { data: any };
+      const { data } = (await firstValueFrom(this.httpService.get(finalUrl))) as { data: any };
 
       if (data.access_token) {
         return data.access_token;
       } else {
         this.logger.error(`获取 access_token 失败: ${JSON.stringify(data)}`);
-        throw new BusinessException(
-          'E4001',
-          `获取 access_token 失败: ${data.errmsg || '未知错误'}`,
-        );
+        throw new BusinessException('获取 access_token 失败: ' + data.errmsg || '未知错误');
       }
     } catch (error: any) {
-      this.logger.error(
-        `获取 access_token 异常: ${error.message}`,
-        error.stack,
-      );
+      this.logger.error(`获取 access_token 异常: ${error.message}`, error.stack);
       if (error instanceof BusinessException) {
         throw error;
       }
-      throw new BusinessException(
-        'E4001',
-        `获取 access_token 异常: ${error.message}`,
-      );
+      throw new BusinessException('获取 access_token 异常: ' + error.message);
     }
   }
 }

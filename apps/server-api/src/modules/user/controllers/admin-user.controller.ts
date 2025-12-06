@@ -26,35 +26,35 @@ export class AdminUserController {
   @ApiOperation({ summary: '创建用户', operationId: 'createAdminUser' })
   @ApiResWrapper(AdminUserVo)
   async create(@Body() dto: CreateAdminUserDto) {
-    return CommonRes.success(this.userConverter.toAdminUserVo(await this.userService.create(dto)));
+    return this.userConverter.toAdminUserVo(await this.userService.create(dto));
   }
 
   @Delete('/:id')
   @ApiOperation({ summary: '删除用户', operationId: 'deleteAdminUser' })
   @ApiResWrapper(Boolean)
   async delete(@Param('id') id: string) {
-    return CommonRes.success(await this.userService.delete(id));
+    return await this.userService.delete(id);
   }
 
   @Delete('/')
   @ApiOperation({ summary: '批量删除用户', operationId: 'deleteManyAdminUser' })
   @ApiResWrapper(Boolean)
   async deleteMany(@Body() ids: string[]) {
-    return CommonRes.success(await this.userService.deleteMany(ids));
+    return await this.userService.deleteMany(ids);
   }
 
   @Put('/:id')
   @ApiOperation({ summary: '更新用户', operationId: 'updateAdminUser' })
   @ApiResWrapper(Boolean)
   async update(@Param('id') id: string, @Body() dto: UpdateAdminUserDto) {
-    return CommonRes.success(await this.userService.update(id, dto));
+    return await this.userService.update(id, dto);
   }
 
   @Get('/:id')
   @ApiOperation({ summary: '查询用户', operationId: 'findAdminUserById' })
   @ApiResWrapper(AdminUserVo)
   async findOne(@Param('id') id: string) {
-    return CommonRes.success(await this.userService.findOne(id));
+    return await this.userService.findOne(id);
   }
 
   @Get('/')
@@ -63,7 +63,7 @@ export class AdminUserController {
   async findAll(
     @Query(new ValidationPipe({ transform: true })) reqVO: QueryAdminUserDto,
   ) {
-    return CommonRes.success(await this.userService.findPage(reqVO));
+    return await this.userService.findPage(reqVO);
   }
 
   @Post('login')
@@ -71,7 +71,7 @@ export class AdminUserController {
   @Public()
   @ApiResWrapper(String)
   async login(@Body() dto: LoginAdminDto) {
-    return CommonRes.success(await this.userService.login(dto));
+    return await this.userService.login(dto);
   }
 
   @Post('register')
@@ -79,13 +79,13 @@ export class AdminUserController {
   @Public()
   @ApiResWrapper(AdminUserVo)
   async register(@Body() dto: CreateAdminUserDto) {
-    return CommonRes.success(this.userConverter.toAdminUserVo(await this.userService.create(dto)));
+    return this.userConverter.toAdminUserVo(await this.userService.create(dto));
   }
 
   @Get('profile')
   @ApiOperation({ summary: '查询当前登录用户信息', operationId: 'getCurrentAdminUserProfile' })
   @ApiResWrapper(AdminUserVo)
   async getCurrentAdminUserProfile(@CurrentUser() currentUser: AdminUser) {
-    return CommonRes.success(this.userConverter.toAdminUserVo(await this.userService.getProfile(currentUser.id)));
+    return this.userConverter.toAdminUserVo(await this.userService.getProfile(currentUser.id));
   }
 }

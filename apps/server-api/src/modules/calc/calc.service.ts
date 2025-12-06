@@ -41,7 +41,7 @@ export class CalcService {
     // 假设只处理 goodsRequests 中的第一个商品，并处理 null/empty
     const goodsRequest: CalcGoodsDTO = buyCalc.calcGoodsList?.[0];
     if (!goodsRequest) {
-      throw new BusinessException('E4004', '商品列表不能为空');
+      throw new BusinessException('商品列表不能为空');
     }
 
     // 由于 goodsId 是 Long，这里使用 string 保持一致性
@@ -53,7 +53,7 @@ export class CalcService {
     });
 
     if (!siteEntity) {
-      throw new BusinessException('E4005', '站点不存在');
+      throw new BusinessException('站点不存在');
     }
 
     // 2. 查询商品信息 (Java: productMapper.getSkuById & getSpuById)
@@ -63,7 +63,7 @@ export class CalcService {
       });
 
     if (!skuEntity) {
-      throw new BusinessException('E4006', 'SKU商品不存在');
+      throw new BusinessException('SKU商品不存在');
     }
 
     const spuEntity: ProductSpu | null =
@@ -72,7 +72,7 @@ export class CalcService {
       });
 
     if (!spuEntity) {
-      throw new BusinessException('E4007', 'SPU商品信息缺失');
+      throw new BusinessException('SPU商品信息缺失');
     }
 
     // --- 3. 数据聚合与动态计算 ---

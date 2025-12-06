@@ -1,3 +1,7 @@
+type String = string;
+type Number = number;
+type Boolean = boolean;
+
 export interface ISku {
   id?: string;
   price: number;

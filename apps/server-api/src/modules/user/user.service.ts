@@ -12,6 +12,7 @@ import { compare, genSalt, hash } from 'bcryptjs';
 import { CreateAdminUserDto, QueryAdminUserDto, UpdateAdminUserDto } from './dto/admin-user.dto';
 import { AdminUserVo } from './vo/admin-user.vo';
 import { CommonPageRes } from '@/common/dto/common-page.dto';
+import { BusinessErrorCode } from '@/common/enums/business-error.code';
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,7 @@ export class UserService {
     // 1. 查重
     const exist = await this.adminRepository.findOne({ where: { username } });
     if (exist) {
-      throw new BusinessException('E4002', '用户名已存在', 'Username already exists.');
+      throw new BusinessException('用户名已存在', BusinessErrorCode.USERNAME_EXIST);
     }
 
     // 2. 加密密码 (大厂标准：加盐哈希)
@@ -129,13 +130,13 @@ export class UserService {
     });
 
     if (!admin) {
-      throw new BusinessException('E4003', '账号或密码错误', 'Incorrect username or password.');
+      throw new BusinessException('账号或密码错误', BusinessErrorCode.USERNAME_OR_PASSWORD_ERROR);
     }
 
     // 2. 比对密码
     const isMatch = await compare(password, admin.password);
     if (!isMatch) {
-      throw new BusinessException('E4003', '账号或密码错误', 'Incorrect username or password.');
+      throw new BusinessException('账号或密码错误', BusinessErrorCode.USERNAME_OR_PASSWORD_ERROR);
     }
 
     // 3. 签发 Token

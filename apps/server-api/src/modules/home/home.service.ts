@@ -66,7 +66,7 @@ export class HomeService {
     });
 
     if (!siteDO) {
-      throw new BusinessException('E4008', '站点配置信息缺失');
+      throw new BusinessException('站点配置信息缺失');
     }
 
     const siteDetails: SiteDetailsVO = this.siteConverter.toVO(siteDO);
@@ -76,7 +76,7 @@ export class HomeService {
       where: { siteId: siteId }, // SiteId 是 unique
     });
     if (!weComEntranceDO) {
-      throw new BusinessException('E4009', '企微入口配置信息缺失');
+      throw new BusinessException('企微入口配置信息缺失');
     }
     const weComEntrance: SiteWecomEntranceVO = this.weComEntranceConverter.toVO(weComEntranceDO);
     homeAllConfigVO.weComEntrance = weComEntrance;
@@ -162,7 +162,7 @@ export class HomeService {
       where: { id: String(siteId) },
     });
     if (!siteDO) {
-      throw new BusinessException('E4008', '站点配置信息缺失');
+      throw new BusinessException('站点配置信息缺失');
     }
     allResVO.siteDetails = this.siteConverter.toVO(siteDO);
 

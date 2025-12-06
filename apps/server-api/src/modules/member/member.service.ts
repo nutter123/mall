@@ -47,7 +47,7 @@ export class MemberService {
     const userId = this.jwtService.extractUserIdFromContext(context);
 
     if (!userId) {
-      throw new BusinessException('E4003', '用户认证信息缺失', 'User ID not found in security context.');
+      throw new BusinessException('用户认证信息缺失');
     }
     return userId;
   }
@@ -79,7 +79,7 @@ export class MemberService {
     const existingUser = await this.getUserByPhone(phone);
     if (existingUser) {
       // 抛出业务异常
-      throw new BusinessException('E4002', '手机号已注册', 'Phone number already exists.');
+      throw new BusinessException('手机号已注册');
     }
 
     // 2. 构建 UserEntity 并插入 (Prisma Create)
@@ -138,7 +138,7 @@ export class MemberService {
     // });
 
     // if (!user) {
-    //   throw new BusinessException('E4003', '用户不存在', 'Authenticated user not found.');
+    //   throw new BusinessException('4003', '用户不存在', 'Authenticated user not found.');
     // }
 
     // // 转换为 VO

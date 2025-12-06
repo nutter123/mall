@@ -158,7 +158,7 @@ declare namespace API {
     pic: string;
   };
 
-  type Boolean = {};
+  type Boolean = boolean;
 
   type BuyCalcDTO = {
     /** 是否接受转让 */
@@ -1087,7 +1087,7 @@ declare namespace API {
     deletedAt?: string;
   };
 
-  type String = {};
+  type String = string;
 
   type SubscribeMessageReqVO = {
     /** 订阅类型 */

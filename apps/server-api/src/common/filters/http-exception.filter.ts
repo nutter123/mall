@@ -1,38 +1,49 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiCode, IApiResponse } from '../interfaces/response.interface';
+import { CommonRes } from '../dto/common-res.dto';
+import { BusinessException } from '../exceptions/business.exception';
 
-@Catch() // 捕获所有异常
+@Catch() // 空参数表示捕获所有异常
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
 
-    // 1. 判断是否为预知的 HttpException (如 404, 400)
-    const isHttpException = exception instanceof HttpException;
+    let httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    let businessCode = 500;
+    let message = '系统内部异常';
+    let prompt = '系统繁忙，请稍后再试';
+    let errorDetail = exception;
 
-    // 2. 确定 HTTP 状态码
-    const httpStatus = isHttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    // 3. 确定业务状态码和错误信息
-    let apiCode = ApiCode.ERR_SYSTEM;
-    let msg = 'Internal server error';
-
-    if (isHttpException) {
-      apiCode = httpStatus; // 这里简单将 HTTP 码对应为业务码
+    if (exception instanceof BusinessException) {
+      httpStatus = exception.getStatus();
+      businessCode = exception.getErrorCode();
+      message = exception.message;
+      prompt = exception.message; // 业务错误通常直接展示给用户
+      errorDetail = null; // 业务异常不需要打印堆栈给前端
+    } else if (exception instanceof HttpException) {
+      httpStatus = exception.getStatus();
+      businessCode = httpStatus; // 使用 HTTP 状态码作为业务码
       const res: any = exception.getResponse();
-      // NestJS 默认报错 msg 有时是数组，有时是字符串，这里做个兼容
-      msg = typeof res === 'object' && res.message ? res.message : res;
+      // 处理 class-validator 的错误数组
+      message = typeof res === 'object' && res.message ? res.message : exception.message;
+      prompt = Array.isArray(message) ? message[0] : message;
     } else {
-      // 打印未知错误的堆栈，方便排查
-      console.error(exception);
+      console.error(`系统异常: ${request.method} ${request.url}`, exception);
     }
 
-    // 4. 发送统一 JSON
-    response.status(httpStatus).json({
-      code: apiCode,
+    const responseBody: CommonRes<null> = {
+      status: businessCode,
+      message: 'error', // 系统级 message
+      prompt: prompt, // 用户级 prompt
       data: null,
-      msg: Array.isArray(msg) ? msg[0] : msg, // 如果是数组取第一条
-    });
+      error: process.env.NODE_ENV === 'development' ? String(errorDetail) : null, // 开发环境可看堆栈
+      trace: null, // 对接之前的 TraceID
+      system: null,
+    };
+
+    // 发送响应
+    response.status(httpStatus).json(responseBody);
   }
 }

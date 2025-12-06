@@ -7,7 +7,7 @@ import {
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-import { FormattedMessage, Helmet, request, useIntl, useModel, useNavigate, history, useRequest } from '@umijs/max';
+import { FormattedMessage, Helmet, request, useModel, useNavigate, history, useRequest } from '@umijs/max';
 import { Alert, App } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
@@ -75,15 +75,11 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-
-  // 增加一个状态来切换 "登录" 和 "注册" 模式
   const [isRegister, setIsRegister] = useState(false);
 
   const { styles } = useStyles();
   const { message } = App.useApp();
-  const intl = useIntl();
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -118,12 +114,13 @@ const Login: React.FC = () => {
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;
+      }else{
+        setUserLoginState({ status: 'error' });
       }
     } catch (error) {
       message.error('登录失败');
     }
   };
-  const { status, type: loginType } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -169,43 +166,37 @@ const Login: React.FC = () => {
           }}
         >
           {/* 只有在登录失败且当前是登录模式时显示错误条 */}
-          {userLoginState.status === 'error' && userLoginState.type === 'account' && !isRegister && (
-            <LoginMessage content="账户或密码错误" />
-          )}
+          {status === 'error' && !isRegister && <LoginMessage content="账户或密码错误" />}
 
-          {type === 'account' && (
-            <>
-              <ProFormText
-                name="username"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder={'请输入用户名'}
-                rules={[
-                  {
-                    required: true,
-                    message: '用户名是必填项！',
-                  },
-                ]}
-              />
-              <ProFormText.Password
-                name="password"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder={'请输入密码'}
-                rules={[
-                  {
-                    required: true,
-                    message: '密码是必填项！',
-                  },
-                  isRegister ? { min: 6, message: '密码至少6位' } : {},
-                ]}
-              />
-            </>
-          )}
+          <ProFormText
+            name="username"
+            fieldProps={{
+              size: 'large',
+              prefix: <UserOutlined className={styles.prefixIcon} />,
+            }}
+            placeholder={'请输入用户名'}
+            rules={[
+              {
+                required: true,
+                message: '用户名是必填项！',
+              },
+            ]}
+          />
+          <ProFormText.Password
+            name="password"
+            fieldProps={{
+              size: 'large',
+              prefix: <LockOutlined className={styles.prefixIcon} />,
+            }}
+            placeholder={'请输入密码'}
+            rules={[
+              {
+                required: true,
+                message: '密码是必填项！',
+              },
+              isRegister ? { min: 6, message: '密码至少6位' } : {},
+            ]}
+          />
 
           {!isRegister && (
             <div style={{ marginBottom: 24 }}>
