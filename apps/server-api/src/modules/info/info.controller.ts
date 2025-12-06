@@ -18,7 +18,7 @@ import { MallHeadersWithoutSiteId } from '../../common/decorators/mall-headers.d
 import type { CommonHeadersDto } from '../../common/decorators/common-headers.decorator';
 import { ApiResWrapper } from '../../common/decorators/api-res-wrapper.decorator';
 import { UserService } from '../user/user.service';
-import { User } from '../user/entities/user.entity';
+import { User } from '../member/entities/user.entity';
 import { CommonHeadersWithoutSiteId, CommonHeadersWithoutSiteIdDto } from '@/common/decorators/common-headers-without-site-id.decorator';
 import { MemberService } from '../member/member.service';
 import { AllInfoVO } from '../member/vo/all-info.vo';

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User } from '../member/entities/user.entity';
 import { AdminUser } from './entities/admin-user.entity';
 import { AdminUserController } from './controllers/admin-user.controller';
 import { UserConverter } from './user.converter';
 import { JwtModule } from '../jwt/jwt.module';
-import { UserCoupon } from './entities/user-coupon.entity';
-import { UserOrder } from './entities/user-order.entity';
-import { UserProductInteraction } from './entities/user-product-interaction.entity';
+import { UserCoupon } from '../member/entities/user-coupon.entity';
+import { UserOrder } from '../member/entities/user-order.entity';
+import { UserProductInteraction } from '../member/entities/user-product-interaction.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUser]), JwtModule],

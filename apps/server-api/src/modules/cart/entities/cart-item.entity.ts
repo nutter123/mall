@@ -4,7 +4,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { User } from '../../member/entities/user.entity';
 import { Sku } from '../../product/entities/sku.entity';
 import { BaseEntity } from '../../../common/entities/base.entity';
 

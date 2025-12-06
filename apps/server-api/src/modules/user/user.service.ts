@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '../jwt/jwt.service';
 import { BusinessException } from '../../common/exceptions/business.exception';
 import { UserConverter } from './user.converter';
-import { User } from './entities/user.entity';
+import { User } from '../member/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Like, Repository } from 'typeorm';
 import { LoginAdminDto } from './dto/login.dto';
